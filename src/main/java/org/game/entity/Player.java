@@ -23,17 +23,28 @@ public class Player extends Entity{
         this.gp = gp;
         this.keyH = keyH;
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2); // making exact middle point of screen to be sure our player will be always in the middle
+        // making exact middle point of screen to be sure our player will be always in the middle
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        // SET COLLISION AREA
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.height = 32;
+        solidArea.width = 32;
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
+        // Starting position
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
+        // speed
         speed = 5;
+        // direction for sprites
         direction = "down";
     }
 
@@ -60,16 +71,26 @@ public class Player extends Entity{
 
             if (keyH.upPressed) {
                 direction = "up";
-                worldY -= speed;
             } else if (keyH.downPressed) {
                 direction = "down";
-                worldY += speed;
             } else if (keyH.leftPressed) {
                 direction = "left";
-                worldX -= speed;
             } else {
                 direction = "right";
-                worldX += speed;
+            }
+
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if(collisionOn == false){
+                switch (direction) {
+                    case "up": worldY -= speed; break;
+                    case "down": worldY += speed; break;
+                    case "right": worldX += speed; break;
+                    case "left": worldX -= speed; break;
+                }
             }
 
             // MOVING ANIMATION => change sprites every 10 cycles
