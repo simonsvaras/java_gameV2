@@ -17,6 +17,9 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+
+        // We want to call set object method before game
+        gamePanel.setupGame();
         gamePanel.startGameThread();
     }
 } 
