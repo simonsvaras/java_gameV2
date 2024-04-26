@@ -17,6 +17,9 @@ public class Player extends Entity{
     // Screen position => doesnt change
     public final int screenX;
     public final int screenY;
+    int hasKeys;
+
+    public static final int DEFAULT_AREA = 32;
 
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -31,8 +34,11 @@ public class Player extends Entity{
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
-        solidArea.height = 32;
+        solidArea.height = DEFAULT_AREA;
         solidArea.width = 32;
+
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
         getPlayerImage();
@@ -83,6 +89,10 @@ public class Player extends Entity{
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
 
+            // CHECK OBJECT COLLISION
+            int objectIndex = gp.collisionChecker.checkObject(this,true);
+            pickUpObject(objectIndex);
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false){
                 switch (direction) {
@@ -107,6 +117,31 @@ public class Player extends Entity{
         }
     }
 
+    public void pickUpObject(int index){
+
+        if(index != 999){ // This means that we did not touch any object
+            //This delete the object we just touch
+            //gp.obj[index] =  null;
+
+            String objectName = gp.obj[index].name;
+
+            switch (objectName){
+                case "Key":
+                    hasKeys++;
+                    gp.obj[index] = null;
+                    System.out.println("Key:" + hasKeys);
+                    break;
+
+                case "Door":
+                    if(hasKeys > 0){
+                        gp.obj[index] = null;
+                        hasKeys--;
+                    }
+                    System.out.println("Key:" + hasKeys);
+                    break;
+            }
+        }
+    }
     public void draw(Graphics2D g2) {
         //g2.setColor(Color.white);
         //g2.fillRect(x, y, gp.tileSize, gp.tileSize);
