@@ -17,7 +17,7 @@ public class Player extends Entity{
     // Screen position => doesnt change
     public final int screenX;
     public final int screenY;
-    int hasKeys;
+    public int hasKeys;
 
     public static final int DEFAULT_AREA = 32;
 
@@ -129,7 +129,7 @@ public class Player extends Entity{
                 case "Key":
                     hasKeys++;
                     gp.obj[index] = null;
-                    System.out.println("Key:" + hasKeys);
+                    gp.ui.showMessage("You got the key!");
                     gp.playSE(1);
                     break;
 
@@ -138,13 +138,21 @@ public class Player extends Entity{
                         gp.obj[index] = null;
                         hasKeys--;
                         gp.playSE(3);
+                        gp.ui.showMessage("You opened the door");
+                    }else {
+                        gp.ui.showMessage("You need a key");
                     }
-                    System.out.println("Key:" + hasKeys);
+
                     break;
                 case "Boots":
                     speed += 1 ;
                     gp.obj[index] = null;
                     gp.playSE(2);
+                    gp.ui.showMessage("Speed up!");
+                    break;
+                case "Chest":
+                    gp.ui.showMessage("Open a chest");
+                    gp.playSE(4);
 
             }
         }
