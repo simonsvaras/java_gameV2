@@ -1,6 +1,8 @@
 package org.game.tile;
 
 import org.game.main.GamePanel;
+import org.game.main.UI;
+import org.game.main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,29 +28,30 @@ public class TileManager {
         loadMap("/maps/world01.txt");
     }
 
+
     public void getTileImage(){
-        try{
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/grass.png")));
+        setup(0, "grass", false);
+        setup(1, "wall", true);
+        setup(2, "water", true);
+        setup(3, "earth", false);
+        setup(4, "tree", true);
+        setup(5, "sand", false);
+    }
 
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/wall.png")));
-            tile[1].collision = true;
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/water.png")));
-            tile[2].collision = true;
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/earth.png")));
-
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/tree.png")));
-            tile[4].collision = true;
-
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/sand.png")));
-
+    // SETUP THE TILE
+    // Create new Tile, load image, scale image, set collision, add to tile field
+    /**
+     * @param index
+     * @param imageName
+     * @param collision
+     */
+    public void setup(int index, String imageName, boolean collision){
+        UtilityTool utilityTool = new UtilityTool();
+        try {
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/"+ imageName +".png")));
+            tile[index].image = utilityTool.scaleImage(tile[index].image,gp.tileSize, gp.tileSize);
+            tile[index].collision = collision;
 
         }catch (IOException e){
             e.printStackTrace();
@@ -107,7 +110,7 @@ public class TileManager {
                     worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(tile[tileNum].image, screenX, screenY,null);
             }
 
 

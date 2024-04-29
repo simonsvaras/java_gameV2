@@ -21,6 +21,7 @@ public class UI {
         this.gamePanel = gamePanel;
         // SET A FONT
         arial_40 = new Font("Arial", Font.PLAIN,40);
+        // For key icon
         OBJ_Key key = new OBJ_Key();
         keyImage = key.image;
     }
