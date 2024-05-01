@@ -19,8 +19,6 @@ public class Player extends Entity{
     // Screen position => doesnt change
     public final int screenX;
     public final int screenY;
-    public int hasKeys;
-
     public static final int DEFAULT_AREA = 32;
 
 
@@ -141,39 +139,6 @@ public class Player extends Entity{
         if(index != 999){ // This means that we did not touch any object
             //This delete the object we just touch
             //gp.obj[index] =  null;
-
-            String objectName = gp.obj[index].name;
-
-            switch (objectName){
-                case "Key":
-                    hasKeys++;
-                    gp.obj[index] = null;
-                    gp.ui.showMessage("You got the key!");
-                    gp.playSE(1);
-                    break;
-
-                case "Door":
-                    if(hasKeys > 0){
-                        gp.obj[index] = null;
-                        hasKeys--;
-                        gp.playSE(3);
-                        gp.ui.showMessage("You opened the door");
-                    }else {
-                        gp.ui.showMessage("You need a key");
-                    }
-
-                    break;
-                case "Boots":
-                    speed += 1 ;
-                    gp.obj[index] = null;
-                    gp.playSE(2);
-                    gp.ui.showMessage("Speed up!");
-                    break;
-                case "Chest":
-                    gp.ui.showMessage("Open a chest");
-                    gp.playSE(4);
-
-            }
         }
     }
     public void draw(Graphics2D g2) {
