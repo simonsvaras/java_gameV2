@@ -13,7 +13,6 @@ import java.util.Objects;
 
 public class Player extends Entity{
 
-    GamePanel gp;
     KeyHandler keyH;
 
     // Screen position => doesnt change
@@ -22,13 +21,14 @@ public class Player extends Entity{
     public static final int DEFAULT_AREA = 32;
 
 
-    public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+    public Player(GamePanel gamePanel, KeyHandler keyH) {
+        super(gamePanel);
+
         this.keyH = keyH;
 
         // making exact middle point of screen to be sure our player will be always in the middle
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gamePanel.screenWidth/2 - (gamePanel.tileSize/2);
+        screenY = gamePanel.screenHeight/2 - (gamePanel.tileSize/2);
 
         // SET COLLISION AREA
         solidArea = new Rectangle();
@@ -46,8 +46,8 @@ public class Player extends Entity{
 
     public void setDefaultValues() {
         // Starting position
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = gamePanel.tileSize * 23;
+        worldY = gamePanel.tileSize * 21;
         // speed
         speed = 5;
         // direction for sprites
@@ -56,36 +56,18 @@ public class Player extends Entity{
 
     public void getPlayerImage() {
         // SETUP SPRITES
-        up1 = setup("boy_up_1");
-        up2 = setup("boy_up_2");
-        down1= setup("boy_down_1");
-        down2 = setup("boy_down_2");
-        left1 = setup("boy_left_1");
-        left2 = setup("boy_left_2");
-        right1 = setup("boy_right_1");
-        right2 = setup("boy_right_2");
+        up1 = setup("/player/boy_up_1");
+        up2 = setup("/player/boy_up_2");
+        down1= setup("/player/boy_down_1");
+        down2 = setup("/player/boy_down_2");
+        left1 = setup("/player/boy_left_1");
+        left2 = setup("/player/boy_left_2");
+        right1 = setup("/player/boy_right_1");
+        right2 = setup("/player/boy_right_2");
 
 
     }
 
-    // SETUP SPRITES
-    // Load sprite, scaled sprite
-    /**
-     * @param imageName
-     * @return image
-     */
-    public BufferedImage setup(String imageName){
-        UtilityTool utilityTool = new UtilityTool();
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
-            image = utilityTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
 
 
     public void update () {
@@ -104,11 +86,15 @@ public class Player extends Entity{
 
             // CHECK TILE COLLISION
             collisionOn = false;
-            gp.collisionChecker.checkTile(this);
+            gamePanel.collisionChecker.checkTile(this);
 
             // CHECK OBJECT COLLISION
-            int objectIndex = gp.collisionChecker.checkObject(this,true);
+            int objectIndex = gamePanel.collisionChecker.checkObject(this,true);
             pickUpObject(objectIndex);
+
+            // CHECK NPC COLLISION
+            int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
+            interactNPC(npcIndex);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false){
@@ -139,6 +125,12 @@ public class Player extends Entity{
         if(index != 999){ // This means that we did not touch any object
             //This delete the object we just touch
             //gp.obj[index] =  null;
+        }
+    }
+
+    public void interactNPC(int index){
+        if(index != 999){
+            System.out.println("you are hitting npc");
         }
     }
     public void draw(Graphics2D g2) {
