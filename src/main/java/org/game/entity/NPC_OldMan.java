@@ -11,6 +11,7 @@ public class NPC_OldMan extends Entity{
         direction = "down";
         speed = 1;
         getImage();
+        setDialogue();
     }
 
     public void getImage() {
@@ -46,6 +47,21 @@ public class NPC_OldMan extends Entity{
             }
             actionLockCounter = 0;
         }
+    }
+
+    public void setDialogue(){
+        dialogues[0] = "Hello, lad.";
+        dialogues[1] = "So you've come to island to \n find some treasure?";
+        dialogues[2] = "I have been here for too long";
+        dialogues[3] = "It is impossible to find the \n way out";
+        dialogues[4] = "Sounds like your problem";
+
+    }
+
+    public void speak(){
+
+        // Here we can do character specific stat
+        super.speak();
     }
 
 

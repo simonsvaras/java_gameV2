@@ -130,8 +130,14 @@ public class Player extends Entity{
 
     public void interactNPC(int index){
         if(index != 999){
-            System.out.println("you are hitting npc");
+            // when player hitting NPC we can change game state
+
+            if(gamePanel.keyH.enterPressed) {
+                gamePanel.gameState = gamePanel.dialogueState;
+                gamePanel.npc[index].speak();
+            }
         }
+        gamePanel.keyH.enterPressed = false;
     }
     public void draw(Graphics2D g2) {
         //g2.setColor(Color.white);
