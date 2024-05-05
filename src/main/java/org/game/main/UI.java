@@ -1,26 +1,31 @@
 package org.game.main;
 
-import org.game.object.OBJ_Key;
+import org.game.object.OBJ_Heart;
+import org.game.object.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 
 public class UI {
     GamePanel gamePanel;
     Graphics2D g2;
     Font arial_40;
+    BufferedImage heart_full, heart_half, heart_blank;
     public boolean messageOn = false;
     public String message = "";
-    int messageCounter = 0;
-    boolean gameFinished = false;
     public String currentDialogue = "";
-
+    public int commandNum = 0;
 
     public UI(GamePanel gamePanel){
         this.gamePanel = gamePanel;
         // SET A FONT
         arial_40 = new Font("Arial", Font.PLAIN,40);
+
+        // CREATE HUD OBJECT
+        SuperObject heart = new OBJ_Heart(gamePanel);
+        heart_full = heart.image;
+        heart_half = heart.image2;
+        heart_blank = heart.image3;
 
     }
     public void showMessage(String text){
@@ -34,24 +39,114 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.WHITE);
 
+
+        // TITTLE STATE
+        if(gamePanel.gameState == gamePanel.tittleState){
+            drawTittleScreen();
+        }
+
         // PLAY STATE
         if(gamePanel.gameState == gamePanel.playState){
-            // TODO
+            drawPlayerLife();
         }
 
         // PAUSE STATE
         if(gamePanel.gameState == gamePanel.pauseState){
+            drawPlayerLife();
             drawPauseScreen();
         }
 
         // DIALOGUE STATE
         if(gamePanel.gameState == gamePanel.dialogueState){
-            drasDialogueScreen();
+            drawPlayerLife();
+            drawDialogueScreen();
         }
 
     }
 
-    public void drasDialogueScreen(){
+    public void drawPlayerLife(){
+        gamePanel.player.life = 3;
+        // DRAW BLANK HEARTS
+        int x = gamePanel.tileSize/2;
+        int y = gamePanel.tileSize/2;
+
+        for (int i = 0; i < gamePanel.player.maxLife / 2; i++){
+            g2.drawImage(heart_blank, x,y,null);
+            x += gamePanel.tileSize;
+        }
+
+
+        // DRAW PLAYERS LIFES
+        x = gamePanel.tileSize/2;
+        y = gamePanel.tileSize/2;
+
+        for (int i = 0; i < gamePanel.player.life / 2; i++){
+            g2.drawImage(heart_full, x,y,null);
+            x += gamePanel.tileSize;
+
+        }
+
+        if (gamePanel.player.life % 2 == 1){
+            g2.drawImage(heart_half, x,y,null);
+        }
+
+
+
+    }
+    public void drawTittleScreen(){
+
+        g2.setColor(new Color(70,120,80));
+        g2.fillRect(0,0, gamePanel.screenWidth, gamePanel.screenHeight);
+
+        // TITTLE NAME
+        g2.setFont((g2.getFont().deriveFont(Font.BOLD, 60F)));
+        String text = "Blue boy adventure";
+        int x = getXForCenteredText(text);
+        int y = gamePanel.tileSize * 3;
+
+        // SHADOW
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x+5, y+5);
+
+
+        // MAIN COLOR
+        g2.setColor(Color.white);
+        g2.drawString(text,x,y);
+
+        // BLUE BOY IMAGE
+        x = gamePanel.screenWidth/2 - (gamePanel.tileSize*2)/2;
+        y += gamePanel.tileSize * 2;
+        g2.drawImage(gamePanel.player.down1, x, y, gamePanel.tileSize*2, gamePanel.tileSize*2, null);
+
+        // MENU
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30));
+
+        text = "NEW GAME";
+        x = getXForCenteredText(text);
+        y += gamePanel.tileSize * 4;
+        g2.drawString(text,x,y);
+        if(commandNum == 0){
+            g2.drawString(">", x-gamePanel.tileSize,y);
+        }
+
+        text = "LOAD GAME";
+        x = getXForCenteredText(text);
+        y += gamePanel.tileSize;
+        g2.drawString(text,x,y);
+        if(commandNum == 1){
+            g2.drawString(">", x-gamePanel.tileSize,y);
+        }
+
+        text = "QUIT";
+        x = getXForCenteredText(text);
+        y += gamePanel.tileSize;
+        g2.drawString(text,x,y);
+        if(commandNum == 2){
+            g2.drawString(">", x-gamePanel.tileSize,y);
+        }
+    }
+
+    public void drawDialogueScreen(){
         // WINDOW
         int x = gamePanel.tileSize * 2;
         int y = gamePanel.tileSize / 2;
