@@ -2,11 +2,13 @@ package org.game.main;
 
 import org.game.entity.Entity;
 import org.game.entity.Player;
-import org.game.object.SuperObject;
 import org.game.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -41,8 +43,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // ENTITY AND OBJECT
     public Player player = new Player(this,keyH);
-    public SuperObject[] obj = new  SuperObject[10];
+    public Entity[] obj = new  Entity[10];
     public Entity[] npc = new Entity[10];
+    ArrayList<Entity> entityList = new ArrayList<>();
 
     // GAME STATE
     public int gameState;
@@ -114,9 +117,9 @@ public class GamePanel extends JPanel implements Runnable {
             player.update();
 
             // NPC
-            for(int i = 0; i < npc.length; i++){
-                if(npc[i] != null){
-                    npc[i].update();
+            for (Entity entity : npc) {
+                if (entity != null) {
+                    entity.update();
                 }
             }
         }
@@ -144,21 +147,36 @@ public class GamePanel extends JPanel implements Runnable {
             // TILE
             tileManager.draw(g2);
 
-            // OBJECT
-            for (SuperObject superObject : obj) {
-                if (superObject != null) {
-                    superObject.draw(g2, this);
+            // ADD ENTITIES TO THE LIST
+            entityList.add(player);
+
+            for (Entity value : npc) {
+                if (value != null) {
+                    entityList.add(value);
                 }
             }
 
-            // NPC
-            for (Entity entity:npc){
-                if (entity != null){
-                    entity.draw(g2);
+            for (Entity entity : obj) {
+                if (entity != null) {
+                    entityList.add(entity);
                 }
             }
-            // PLAYER
-            player.draw(g2);
+
+            // SORT
+            entityList.sort(new Comparator<Entity>() {
+                @Override
+                public int compare(Entity o1, Entity o2) {
+                    return Integer.compare(o1.worldY, o2.worldY);
+                }
+            });
+
+            // DRAW RESULT
+            for (Entity entity : entityList) {
+                entity.draw(g2);
+            }
+
+            // CLEAR ENTITY LIST
+            entityList.clear();
 
             // UI
             ui.draw(g2);

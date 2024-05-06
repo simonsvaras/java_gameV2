@@ -1,7 +1,7 @@
 package org.game.main;
 
+import org.game.entity.Entity;
 import org.game.object.OBJ_Heart;
-import org.game.object.SuperObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,7 +22,7 @@ public class UI {
         arial_40 = new Font("Arial", Font.PLAIN,40);
 
         // CREATE HUD OBJECT
-        SuperObject heart = new OBJ_Heart(gamePanel);
+        Entity heart = new OBJ_Heart(gamePanel);
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;
