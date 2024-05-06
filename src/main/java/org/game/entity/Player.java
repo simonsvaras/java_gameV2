@@ -2,14 +2,9 @@ package org.game.entity;
 
 import org.game.main.GamePanel;
 import org.game.main.KeyHandler;
-import org.game.main.UI;
-import org.game.main.UtilityTool;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity{
 
@@ -68,10 +63,7 @@ public class Player extends Entity{
         left2 = setup("/player/boy_left_2");
         right1 = setup("/player/boy_right_1");
         right2 = setup("/player/boy_right_2");
-
-
     }
-
 
 
     public void update () {
@@ -100,6 +92,10 @@ public class Player extends Entity{
             int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
             interactNPC(npcIndex);
 
+            // CHECK MONSTER COLLISION
+            int monsterIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.monster);
+            interactMonster(monsterIndex);
+
             // CHECK EVENT
             gamePanel.eventHandler.checkEvent();
 
@@ -127,6 +123,14 @@ public class Player extends Entity{
                 spriteCounter = 0;
             }
         }
+
+        if(invincible){
+            invincibleCounter++;
+            if (invincibleCounter > 60){
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     public void pickUpObject(int index){
@@ -134,6 +138,15 @@ public class Player extends Entity{
         if(index != 999){ // This means that we did not touch any object
             //This delete the object we just touch
             //gp.obj[index] =  null;
+        }
+    }
+
+    public void interactMonster(int index){
+        if(index != 999){
+            if(!invincible){
+                life -=  1;
+                invincible = true;
+            }
         }
     }
 
@@ -187,6 +200,13 @@ public class Player extends Entity{
                 }
                 break;
         }
+
+        //  VISUAL EFFECT TO INVINCIBLE STATE 
+        if (invincible){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3F));
+        }
+
         g2.drawImage(image, screenX, screenY, null);
+
     }
 }

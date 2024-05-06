@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this,keyH);
     public Entity[] obj = new  Entity[10];
     public Entity[] npc = new Entity[10];
+    public Entity[] monster = new Entity[20];
     ArrayList<Entity> entityList = new ArrayList<>();
 
     // GAME STATE
@@ -67,6 +68,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame() {
         assetSetter.setObject();
         assetSetter.setNPC();
+        assetSetter.setMonster();
         playMusic(0);
         gameState = tittleState;
     }
@@ -77,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // Is used to create a thread => because we used Runnable
-    // When we start Thread object it will automatic run this method
+    // When we start Thread object it will automatically run this method
     @Override
     public void run() {
         double drawInterval = (double) 1000000000 / FPS; //0,0166 seconds refresh rate
@@ -122,7 +124,15 @@ public class GamePanel extends JPanel implements Runnable {
                     entity.update();
                 }
             }
+
+            // MONSTER
+            for(Entity entity : monster){
+                if(entity != null){
+                    entity.update();
+                }
+            }
         }
+
         if(gameState == pauseState){
             // nothing
         }
@@ -157,6 +167,12 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             for (Entity entity : obj) {
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+
+            for (Entity entity : monster) {
                 if (entity != null) {
                     entityList.add(entity);
                 }
