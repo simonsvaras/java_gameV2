@@ -100,6 +100,11 @@ public class Player extends Entity{
             int npcIndex = gamePanel.collisionChecker.checkEntity(this, gamePanel.npc);
             interactNPC(npcIndex);
 
+            // CHECK EVENT
+            gamePanel.eventHandler.checkEvent();
+
+            gamePanel.keyH.enterPressed = false;
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(collisionOn == false){
                 switch (direction) {
@@ -141,7 +146,6 @@ public class Player extends Entity{
                 gamePanel.npc[index].speak();
             }
         }
-        gamePanel.keyH.enterPressed = false;
     }
     public void draw(Graphics2D g2) {
         //g2.setColor(Color.white);
