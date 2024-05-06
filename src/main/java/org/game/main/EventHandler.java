@@ -4,21 +4,33 @@ import java.awt.*;
 
 public class EventHandler {
     GamePanel gamePanel;
-    Rectangle eventRec;
-    int eventRecDefaultX, eventRecDefaultY;
-
+   EventRect eventRec[][];
     public EventHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        // TRIGGER POINT OF TILE
-        eventRec = new Rectangle();
-        eventRec.x = 23;
-        eventRec.y = 23;
-        eventRec.width = 2;
-        eventRec.height = 2;
+        // Have event rectangle on every single tile on the map
+        eventRec = new EventRect[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
 
-        eventRecDefaultX = eventRec.x;
-        eventRecDefaultY = eventRec.y;
+        int col = 0;
+        int row = 0;
+        while (col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow){
+            // TRIGGER POINT OF TILE
+            eventRec[col][row] = new EventRect();
+            eventRec[col][row].x = 23;
+            eventRec[col][row].y = 23;
+            eventRec[col][row].width = 2;
+            eventRec[col][row].height = 2;
+
+            eventRec[col][row].eventRectDefaultX = eventRec[col][row].x;
+            eventRec[col][row].eventRectDefaultY = eventRec[col][row].y;
+
+            col++;
+            if(col == gamePanel.maxWorldCol){
+                col = 0;
+                row++;
+            }
+        }
+
     }
 
     public void checkEvent(){
@@ -27,7 +39,7 @@ public class EventHandler {
         }
     }
 
-    public boolean hit (int eventCol, int eventRow, String reqDirection){
+    public boolean hit (int col, int row, String reqDirection){
         boolean hit = false;
 
         // Getting players current solid area position
@@ -35,10 +47,10 @@ public class EventHandler {
         gamePanel.player.solidArea.y = gamePanel.player.worldY + gamePanel.player.solidArea.y;
 
         // Getting rectangle solid area position
-        eventRec.x = eventCol *  gamePanel.tileSize + eventRec.x;
-        eventRec.y = eventRow * gamePanel.tileSize + eventRec.y;
+        eventRec[col][row].x = col *  gamePanel.tileSize + eventRec[col][row].x;
+        eventRec[col][row].y = row * gamePanel.tileSize + eventRec[col][row].y;
 
-        if(gamePanel.player.solidArea.intersects(eventRec)){
+        if(gamePanel.player.solidArea.intersects(eventRec[col][row])){
             if(gamePanel.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")){
                 hit = true;
             }
@@ -47,8 +59,8 @@ public class EventHandler {
         // After checking reset solid area
         gamePanel.player.solidArea.x = gamePanel.player.solidAreaDefaultX;
         gamePanel.player.solidArea.y = gamePanel.player.solidAreaDefaultY;
-        eventRec.x = eventRecDefaultX;
-        eventRec.y = eventRecDefaultY;
+        eventRec[col][row].x = eventRec[col][row].eventRectDefaultX;
+        eventRec[col][row].y = eventRec[col][row].eventRectDefaultY;
 
         return hit;
     }
