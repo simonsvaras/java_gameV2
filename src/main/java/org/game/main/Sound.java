@@ -6,36 +6,60 @@ import javax.sound.sampled.Clip;
 import java.net.URL;
 
 public class Sound {
-    Clip clip;
-    URL[] soundURL = new URL[30];
+
+    // Field of clips
+    private Clip[] clips = new Clip[30];
 
     public Sound() {
-        soundURL[0] = getClass().getResource("/sound/BlueBoyAdventure.wav");
-        soundURL[1] = getClass().getResource("/sound/coin.wav");
-        soundURL[2] = getClass().getResource("/sound/powerup.wav");
-        soundURL[3] = getClass().getResource("/sound/unlock.wav");
-        soundURL[4] = getClass().getResource("/sound/fanfare.wav");
-    }
-
-    public void setFile(int i){
-
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
-            clip = AudioSystem.getClip();
-            clip.open(ais);
-
-        }catch (Exception ignored) {
-
+        // Load all sound while initializing
+        for (int i = 0; i < clips.length; i++) {
+            try {
+                URL url = getClass().getResource("/sound/" + getSoundFileName(i));
+                if (url != null) {
+                    AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+                    clips[i] = AudioSystem.getClip();
+                    clips[i].open(ais);
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading sound: " + e);
+            }
         }
     }
-    public void play(){
-        clip.start();
-    }
-    public void loop(){
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-    public void stop(){
-        clip.stop();
+
+    private String getSoundFileName(int index) {
+        switch (index) {
+            case 0: return "BlueBoyAdventure.wav";
+            case 1: return "coin.wav";
+            case 2: return "powerup.wav";
+            case 3: return "unlock.wav";
+            case 4: return "fanfare.wav";
+            case 5: return "hitmonster.wav";
+            case 6: return "receivedamage.wav";
+            case 7: return "levelup.wav";
+            default: return null;
+        }
     }
 
+    public void play(int index){
+        if (index >= 0 && index < clips.length && clips[index] != null) {
+            if (clips[index].isRunning()) {
+                clips[index].stop();
+            }
+            clips[index].setFramePosition(0);
+            clips[index].start();
+        }
+    }
+
+    public void loop(int index){
+        if (index >= 0 && index < clips.length && clips[index] != null) {
+            clips[index].loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
+    public void stop(int index){
+        if (index >= 0 && index < clips.length && clips[index] != null) {
+            clips[index].stop();
+        }
+    }
 }
+

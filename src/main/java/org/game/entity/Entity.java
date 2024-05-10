@@ -18,29 +18,41 @@ public class Entity {
     GamePanel gamePanel;
 
     // Start position of Player
-    public int worldX, worldY;
-    public int speed;
+
+
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public  String direction = "down";
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-    //All characters can share this default solid area
-    public Rectangle solidArea = new Rectangle(0,0,48,48);
-    public int solidAreaDefaultX, solidAreaDefaultY;
-    public boolean collisionOn = false;
-    public int actionLockCounter = 0;
-    public boolean invincible = false;
-    public int invincibleCounter = 0;
-    public String[] dialogues = new String[20];
-    public int dialogueIndex = 0;
-
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
     public BufferedImage image, image2, image3;
-    public String name;
+    public Rectangle solidArea = new Rectangle(0,0,48,48);
+    public Rectangle attackArea = new Rectangle(0,0,0,0);
     public boolean collision = false;
-    public int type; // 0 == player, 1 = npc, 2, = monster
+    public String[] dialogues = new String[20];
+    public int solidAreaDefaultX, solidAreaDefaultY;
 
-    //  CHARACTER STATUS
+    // STATE
+    public int worldX, worldY;
+    public  String direction = "down";
+    public int spriteNum = 1;
+    public boolean invincible = false;
+    public boolean collisionOn = false;
+    public int dialogueIndex = 0;
+    public boolean isAttacking = false;
+    public boolean alive = true;
+    public boolean dying = false;
+
+    // COUNTER
+    public int actionLockCounter = 0;
+    public int spriteCounter = 0;
+    public int invincibleCounter = 0;
+    int dyingCounter = 0;
+
+
+
+    // CHARACTER ATTRIBUTES
+    public String name;
+    public int speed;
+    public int type; // 0 == player, 1 = npc, 2, = monster
     public int maxLife;
     public int life;
 
@@ -50,6 +62,7 @@ public class Entity {
 
 
     public void setAction(){}
+    public void damageReaction(){}
 
     public void speak(){
         if(dialogues[dialogueIndex] == null){
@@ -87,6 +100,8 @@ public class Entity {
 
         if(this.type == 2 && contactPlayer){
             if(!gamePanel.player.invincible){
+                // We can give damage
+                gamePanel.playSE(6);
                 gamePanel.player.life --;
                 gamePanel.player.invincible = true;
             }
@@ -113,6 +128,14 @@ public class Entity {
              }
              spriteCounter = 0;
          }
+
+         if(invincible){
+             invincibleCounter++;
+             if (invincibleCounter > 40){
+                 invincible = false;
+                 invincibleCounter = 0;
+             }
+         }
      }
 
     public void draw(Graphics2D g2){
@@ -127,41 +150,67 @@ public class Entity {
 
             switch (direction) {
                 case "up":
-                    if(spriteNum == 1) {
-                        image = up1;
-                    }
-                    if(spriteNum == 2){
-                        image = up2;
-                    }
+                    if(spriteNum == 1) image = up1;
+                    if(spriteNum == 2) image = up2;
                     break;
                 case "down":
-                    if(spriteNum == 1) {
-                        image = down1;
-                    }
-                    if(spriteNum == 2){
-                        image = down2;
-                    }
+                    if(spriteNum == 1) image = down1;
+                    if(spriteNum == 2) image = down2;
                     break;
                 case "left":
-                    if(spriteNum == 1) {
-                        image = left1;
-                    }
-                    if(spriteNum == 2){
-                        image = left2;
-                    }
+                    if(spriteNum == 1) image = left1;
+                    if(spriteNum == 2) image = left2;
                     break;
                 case "right":
-                    if(spriteNum == 1) {
-                        image = right1;
-                    }
-                    if(spriteNum == 2){
-                        image = right2;
-                    }
+                    if(spriteNum == 1) image = right1;
+                    if(spriteNum == 2) image = right2;
                     break;
             }
 
+            // Monster healthBar
+            if(type == 2) {
+                double oneScale = (double)gamePanel.tileSize/maxLife;
+                double hpBarValue = oneScale*life;
+
+                g2.setColor(new Color(35,35,35));
+                g2.fillRect(screenX-1,screenY-13,gamePanel.tileSize+2,12);
+                g2.setColor(new Color(255, 0, 30));
+                g2.fillRect(screenX, screenY - 12, (int) hpBarValue, 10);
+            }
+
+            //  VISUAL EFFECT TO INVINCIBLE STATE
+            if (invincible){
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            }
+
+            if(dying){
+                dyingAnimation(g2);
+            }
+
+
             g2.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
+    }
+
+    public void dyingAnimation(Graphics2D g2){
+        dyingCounter++;
+        //int i = 5;
+
+        int interval = 8;
+
+        // Toggle alpha values between 0.0 and 1.0 in intervals of `interval`
+        if (dyingCounter <= interval * 8) {
+            float alphaValue = (dyingCounter / interval) % 2 == 0 ? 0.0f : 1.0f;
+            changeAlpha(g2, alphaValue);
+        } else {
+            dying = false;
+            alive = false;
+        }
+    }
+
+    private void changeAlpha(Graphics2D g2, float alphaValue){
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
     }
 
 
@@ -171,13 +220,13 @@ public class Entity {
      * @param imagePath
      * @return image
      */
-    public BufferedImage setup(String imagePath){
+    public BufferedImage setup(String imagePath, int width, int height){
         UtilityTool utilityTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
-            image = utilityTool.scaleImage(image, gamePanel.tileSize, gamePanel.tileSize);
+            image = utilityTool.scaleImage(image, width, height);
         }catch (IOException e){
             e.printStackTrace();
         }
