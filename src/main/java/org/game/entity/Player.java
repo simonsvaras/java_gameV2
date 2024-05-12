@@ -2,6 +2,8 @@ package org.game.entity;
 
 import org.game.main.GamePanel;
 import org.game.main.KeyHandler;
+import org.game.object.OBJ_Shield_Wood;
+import org.game.object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,7 @@ public class Player extends Entity{
     // Screen position => doesnt change
     public final int screenX;
     public final int screenY;
+    public  boolean attackCanceled = false;
     public static final int DEFAULT_AREA = 32;
 
 
@@ -54,8 +57,27 @@ public class Player extends Entity{
         direction = "down";
 
         // PLAYER STATUS
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1;
+        dexterity = 1;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gamePanel);
+        currentShield = new OBJ_Shield_Wood(gamePanel);
+        attack = getAttack();
+        defense = getDefense();
+    }
+
+    // Total attack value is decided by strength and weapon
+    public int getAttack(){
+        return attack = strength * currentWeapon.attackValue;
+    }
+
+    // Total defense value is decided by dexterity adn shield
+    public int getDefense(){
+        return defense = dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {
@@ -132,6 +154,13 @@ public class Player extends Entity{
                 }
             }
 
+            if(keyH.enterPressed == true && attackCanceled == false){
+                gamePanel.playSE(7);
+                isAttacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCanceled = false;
             gamePanel.keyH.enterPressed = false;
 
             // MOVING ANIMATION => change sprites every 10 cycles
@@ -233,14 +262,11 @@ public class Player extends Entity{
 
     public void interactNPC(int index){
         if (gamePanel.keyH.enterPressed) {
-            if(index != 999) {
-            // when player hitting NPC we can change game state
-                gamePanel.playSE(5);
+            if (index != 999) {
+                // when player hitting NPC we can change game state
+                attackCanceled = true;
                 gamePanel.gameState = gamePanel.dialogueState;
                 gamePanel.npc[index].speak();
-            } else {
-                gamePanel.playSE(7);
-                isAttacking = true;
             }
         }
 

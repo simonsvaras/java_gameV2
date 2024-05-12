@@ -48,13 +48,27 @@ public class Entity {
     int dyingCounter = 0;
 
 
-
     // CHARACTER ATTRIBUTES
     public String name;
     public int speed;
     public int type; // 0 == player, 1 = npc, 2, = monster
     public int maxLife;
     public int life;
+    public int strength;
+    public int dexterity;
+    public int defense;
+    public int attack;
+    public int level;
+    public int exp;
+    public int nextLevelExp;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
+
+    // ITEM ATTRIBUTES
+    public int attackValue;
+    public int defenseValue;
+
 
     public Entity(GamePanel gamePanel){
         this.gamePanel = gamePanel;

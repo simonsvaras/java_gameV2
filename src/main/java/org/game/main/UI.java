@@ -62,6 +62,11 @@ public class UI {
             drawDialogueScreen();
         }
 
+        // CHARACTER STATE
+        if(gamePanel.gameState == gamePanel.characterState){
+            drawCharacterScreen();
+        }
+
     }
 
     public void drawPlayerLife(){
@@ -93,6 +98,7 @@ public class UI {
 
 
     }
+
     public void drawTittleScreen(){
 
         g2.setColor(new Color(70,120,80));
@@ -167,6 +173,101 @@ public class UI {
 
     }
 
+    public void drawCharacterScreen(){
+        // CREATE A FRAME
+        final int frameX = gamePanel.tileSize*2;
+        final int frameY = gamePanel.tileSize;
+        final int frameWidth = gamePanel.tileSize*5;
+        final int frameHeight = gamePanel.tileSize*10;
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+
+        // TEXT
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(26F));
+
+        int textX = frameX + 20;
+        int textY = frameY + gamePanel.tileSize;
+        final int lineHeight = 40;
+
+        // NAMES
+        g2.drawString("Level", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Life", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Strength", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Dexterity", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Attack", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Defense", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Exp", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Next Level", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Coin", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Weapon", textX, textY);
+        textY += lineHeight;
+        g2.drawString("Shield", textX, textY);
+
+        // VALUES
+        int tailX = (frameX + frameWidth) - 30;
+        textY = frameY + gamePanel.tileSize;
+        String value;
+
+        value = String.valueOf(gamePanel.player.level);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.life + "/" + gamePanel.player.maxLife);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.strength);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.dexterity);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.attack);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.defense);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.exp);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.nextLevelExp);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+        textY += lineHeight;
+
+        value = String.valueOf(gamePanel.player.coin);
+        textX = getXForAlignToRightText(value, tailX);
+        g2.drawString(value,textX,textY);
+
+        textY += lineHeight/2;
+
+        g2.drawImage(gamePanel.player.currentWeapon.down1, tailX-gamePanel.tileSize, textY - 14, null );
+        textY += gamePanel.tileSize;
+        g2.drawImage(gamePanel.player.currentShield.down1, tailX - gamePanel.tileSize, textY - 14, null);
+    }
+
     public void drawSubWindow(int x, int y, int width, int height){
         Color c = new Color(0,0,0);
         g2.setColor(c);
@@ -190,7 +291,11 @@ public class UI {
 
     public int getXForCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
-        int x = gamePanel.screenWidth/2 - length/2;
-        return x;
+        return gamePanel.screenWidth/2 - length/2;
+    }
+
+    public int getXForAlignToRightText(String text, int tailX){
+        int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
+        return tailX - length;
     }
 }
