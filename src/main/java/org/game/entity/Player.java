@@ -250,14 +250,26 @@ public class Player extends Entity{
 
         String text;
         if(index != 999){ // This means that we did not touch any object
-            if(inventory.size()  != maxInventorySize){
-                inventory.add(gamePanel.obj[index]);
-                gamePanel.playSE(1);
-                text = "Got a " + gamePanel.obj[index].name + "!";
+
+            // PICKUP ONLY ITEMS
+            if(gamePanel.obj[index].type == type_pickupOnly){
+                gamePanel.obj[index].use(this);
                 gamePanel.obj[index] = null;
             }
-            text = "You cannot carry any object any more";
-            gamePanel.ui.addMessage(text);
+
+            // INVENTORY ITEMS
+            else {
+                if(inventory.size()  != maxInventorySize){
+                    inventory.add(gamePanel.obj[index]);
+                    gamePanel.playSE(1);
+                    text = "Got a " + gamePanel.obj[index].name + "!";
+                    gamePanel.obj[index] = null;
+                }else {
+                    text = "You cannot carry any object any more";
+                }
+                gamePanel.ui.addMessage(text);
+            }
+
         }
     }
 

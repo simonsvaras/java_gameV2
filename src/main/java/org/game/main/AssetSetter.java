@@ -18,15 +18,15 @@ public class AssetSetter {
         gamePanel.obj[i].worldX = gamePanel.tileSize*21;
         gamePanel.obj[i].worldY = gamePanel.tileSize*22;
         i++;
-        gamePanel.obj[i] = new OBJ_Key(gamePanel);
+        gamePanel.obj[i] = new OBJ_Coin_Bronze(gamePanel);
         gamePanel.obj[i].worldX = gamePanel.tileSize*23;
         gamePanel.obj[i].worldY = gamePanel.tileSize*19;
         i++;
-        gamePanel.obj[i] = new OBJ_Key(gamePanel);
+        gamePanel.obj[i] = new OBJ_Coin_Bronze(gamePanel);
         gamePanel.obj[i].worldX = gamePanel.tileSize*24;
         gamePanel.obj[i].worldY = gamePanel.tileSize*19;
         i++;
-        gamePanel.obj[i] = new OBJ_Key(gamePanel);
+        gamePanel.obj[i] = new OBJ_Coin_Bronze(gamePanel);
         gamePanel.obj[i].worldX = gamePanel.tileSize*25;
         gamePanel.obj[i].worldY = gamePanel.tileSize*19;
         i++;
