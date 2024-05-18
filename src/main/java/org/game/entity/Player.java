@@ -104,14 +104,25 @@ public class Player extends Entity{
     }
     ;
     public void getPlayerAttackImage(){
-        attackUp1 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize*2);
-        attackUp2 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize*2);
-        attackDown1 = setup("/player/Attacking/boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize*2);
-        attackDown2 = setup("/player/Attacking/boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize*2);
-        attackLeft1 = setup("/player/Attacking/boy_attack_left_1", gamePanel.tileSize*2, gamePanel.tileSize);
-        attackLeft2 = setup("/player/Attacking/boy_attack_left_2", gamePanel.tileSize*2, gamePanel.tileSize);
-        attackRight1 = setup("/player/Attacking/boy_attack_right_1", gamePanel.tileSize*2, gamePanel.tileSize);
-        attackRight2 = setup("/player/Attacking/boy_attack_right_2", gamePanel.tileSize*2, gamePanel.tileSize);
+        if(currentWeapon.type == type_sword) {
+            attackUp1 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown1 = setup("/player/Attacking/boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown2 = setup("/player/Attacking/boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackLeft1 = setup("/player/Attacking/boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft2 = setup("/player/Attacking/boy_attack_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight1 = setup("/player/Attacking/boy_attack_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight2 = setup("/player/Attacking/boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        } else if (currentWeapon.type == type_axe) {
+            attackUp1 = setup("/player/Attacking/boy_axe_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = setup("/player/Attacking/boy_axe_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown1 = setup("/player/Attacking/boy_axe_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackDown2 = setup("/player/Attacking/boy_axe_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackLeft1 = setup("/player/Attacking/boy_axe_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackLeft2 = setup("/player/Attacking/boy_axe_left_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight1 = setup("/player/Attacking/boy_axe_right_1", gamePanel.tileSize * 2, gamePanel.tileSize);
+            attackRight2 = setup("/player/Attacking/boy_axe_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
+        }
 
 
     }
@@ -307,15 +318,17 @@ public class Player extends Entity{
             if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
                 currentWeapon = selectedItem;
                 attack = getAttack();
+                getPlayerAttackImage();
             }
 
             if (selectedItem.type == type_shield) {
                 currentShield = selectedItem;
                 defense = getDefense();
+            }
 
-                if (selectedItem.type == type_consumable) {
-                    // TODO
-                }
+            if (selectedItem.type == type_consumable) {
+                    selectedItem.use(this);
+                    inventory.remove(itemIndex);
             }
         }
     }
