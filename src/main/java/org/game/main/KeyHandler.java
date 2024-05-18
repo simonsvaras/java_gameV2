@@ -119,6 +119,29 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_C){
             gamePanel.gameState = gamePanel.playState;
         }
+        if(code == KeyEvent.VK_W){
+            if(gamePanel.ui.slotRow != 0) {
+                gamePanel.ui.slotRow--;
+                gamePanel.playSE(8);
+            }
+        }
+        if(code == KeyEvent.VK_A){
+            if(gamePanel.ui.slotCol != 0) {
+                gamePanel.ui.slotCol--;
+                gamePanel.playSE(8);
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            if(gamePanel.ui.slotRow != 3) {
+                gamePanel.ui.slotRow++;
+                gamePanel.playSE(8);
+            }}
+        if(code == KeyEvent.VK_D){
+            if(gamePanel.ui.slotCol != 4) {
+                gamePanel.ui.slotCol++;
+                gamePanel.playSE(8);
+            }
+        }
     }
 
     @Override

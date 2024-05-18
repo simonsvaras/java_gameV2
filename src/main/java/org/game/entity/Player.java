@@ -2,11 +2,13 @@ package org.game.entity;
 
 import org.game.main.GamePanel;
 import org.game.main.KeyHandler;
+import org.game.object.OBJ_Key;
 import org.game.object.OBJ_Shield_Wood;
 import org.game.object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity{
 
@@ -16,6 +18,8 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
     public  boolean attackCanceled = false;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int maxInventorySize = 20;
     public static final int DEFAULT_AREA = 32;
 
 
@@ -45,6 +49,7 @@ public class Player extends Entity{
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -70,6 +75,13 @@ public class Player extends Entity{
         defense = getDefense();
     }
 
+    public void setItems(){
+        inventory.add(currentWeapon);
+        inventory.add(currentShield);
+        inventory.add(new OBJ_Key(gamePanel));
+        inventory.add(new OBJ_Key(gamePanel));
+    }
+
     // Total attack value is decided by strength and weapon
     public int getAttack(){
         return attack = strength * currentWeapon.attackValue;
@@ -91,8 +103,7 @@ public class Player extends Entity{
         right1 = setup("/player/boy_right_1", gamePanel.tileSize, gamePanel.tileSize);
         right2 = setup("/player/boy_right_2", gamePanel.tileSize, gamePanel.tileSize);
     }
-
-
+    ;
     public void getPlayerAttackImage(){
         attackUp1 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize*2);
         attackUp2 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize*2);
@@ -105,7 +116,6 @@ public class Player extends Entity{
 
 
     }
-
 
     public void update () {
         if(isAttacking){
@@ -238,7 +248,11 @@ public class Player extends Entity{
         if(index != 999){
             if(!invincible){
                 gamePanel.playSE(6);
-                life -=  1;
+
+                int damage = gamePanel.monster[index].attack - defense;
+                if(damage < 0)
+                    damage = 0;
+                life -=  damage;
                 invincible = true;
             }
         }
@@ -248,7 +262,14 @@ public class Player extends Entity{
         if( index != 999){
             if (!gamePanel.monster[index].invincible){
                 gamePanel.playSE(5);
-                gamePanel.monster[index].life --;
+
+                int damage = attack - gamePanel.monster[index].defense;
+
+                if(damage < 0){
+                    damage = 0;
+                }
+
+                gamePanel.monster[index].life -= damage;
                 gamePanel.monster[index].invincible = true;
                 gamePanel.monster[index].damageReaction();
 

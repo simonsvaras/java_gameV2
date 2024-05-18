@@ -36,6 +36,7 @@ public class Sound {
             case 5: return "hitmonster.wav";
             case 6: return "receivedamage.wav";
             case 7: return "levelup.wav";
+            case 8: return "cursor.wav";
             default: return null;
         }
     }
