@@ -3,9 +3,7 @@ package org.game.main;
 
 import org.game.entity.NPC_OldMan;
 import org.game.monster.MON_GreenSlime;
-import org.game.object.OBJ_Boots;
-import org.game.object.OBJ_Chest;
-import org.game.object.OBJ_Door;
+import org.game.object.*;
 
 public class AssetSetter {
     GamePanel gamePanel;
@@ -15,9 +13,26 @@ public class AssetSetter {
     }
 
     public void setObject() {
-        gamePanel.obj[0] = new OBJ_Chest(gamePanel);
-        gamePanel.obj[0].worldX = gamePanel.tileSize*21;
-        gamePanel.obj[0].worldY = gamePanel.tileSize*22;
+        int i = 0;
+        gamePanel.obj[i] = new OBJ_Chest(gamePanel);
+        gamePanel.obj[i].worldX = gamePanel.tileSize*21;
+        gamePanel.obj[i].worldY = gamePanel.tileSize*22;
+        i++;
+        gamePanel.obj[i] = new OBJ_Key(gamePanel);
+        gamePanel.obj[i].worldX = gamePanel.tileSize*23;
+        gamePanel.obj[i].worldY = gamePanel.tileSize*19;
+        i++;
+        gamePanel.obj[i] = new OBJ_Key(gamePanel);
+        gamePanel.obj[i].worldX = gamePanel.tileSize*24;
+        gamePanel.obj[i].worldY = gamePanel.tileSize*19;
+        i++;
+        gamePanel.obj[i] = new OBJ_Key(gamePanel);
+        gamePanel.obj[i].worldX = gamePanel.tileSize*25;
+        gamePanel.obj[i].worldY = gamePanel.tileSize*19;
+        i++;
+        gamePanel.obj[i] = new OBJ_Axe(gamePanel);
+        gamePanel.obj[i].worldX = gamePanel.tileSize*26;
+        gamePanel.obj[i].worldY = gamePanel.tileSize*19;
     }
 
     public void setNPC() {

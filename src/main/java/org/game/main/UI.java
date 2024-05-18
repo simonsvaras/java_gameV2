@@ -288,14 +288,24 @@ public class UI {
         int slotY = slotYStart;
         int slotSize = gamePanel.tileSize + 3;
 
-        //  DRAW PLAYER ITEMS
+        //  DRAW PLAYERS ITEMS
         for (int i = 0; i < gamePanel.player.inventory.size(); i++){
+
+            // EQUIP CURSOR
+            if(gamePanel.player.inventory.get(i) == gamePanel.player.currentWeapon
+                || gamePanel.player.inventory.get(i) == gamePanel.player.currentShield){
+                g2.setColor(new Color(240, 190,90));
+                g2.fillRoundRect(slotX, slotY, gamePanel.tileSize, gamePanel.tileSize, 10, 10);
+            }
+
+
+
             g2.drawImage(gamePanel.player.inventory.get(i).down1, slotX, slotY,null);
 
             slotX += slotSize;
 
             if(i == 4 || i == 14 || i == 9){
-                slotX = 0;
+                slotX = slotXStart;
                 slotY += slotSize;
             }
         }
@@ -317,7 +327,7 @@ public class UI {
         int dFrameWidth = frameWidth;
         int dFrameHeight = gamePanel.tileSize*3;
 
-        drawSubWindow(dFrameX,dFrameY,dFrameWidth,dFrameHeight);
+
 
         // DRAW DESCRIPTION TEXT
         int textX = dFrameX + 20;
@@ -328,6 +338,8 @@ public class UI {
         int itemIndex = getItemIndexOnSlot();
 
         if(itemIndex <  gamePanel.player.inventory.size()){
+            drawSubWindow(dFrameX,dFrameY,dFrameWidth,dFrameHeight);
+
             for(String line : gamePanel.player.inventory.get(itemIndex).description.split("\n")){
                 g2.drawString(line, textX, textY);
                 textY += 32;

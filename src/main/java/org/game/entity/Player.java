@@ -42,8 +42,6 @@ public class Player extends Entity{
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        attackArea.width = 36;
-        attackArea.height = 36;
 
 
         setDefaultValues();
@@ -84,6 +82,7 @@ public class Player extends Entity{
 
     // Total attack value is decided by strength and weapon
     public int getAttack(){
+        attackArea = currentWeapon.attackArea;
         return attack = strength * currentWeapon.attackValue;
     }
 
@@ -238,9 +237,16 @@ public class Player extends Entity{
 
     public void pickUpObject(int index){
 
+        String text;
         if(index != 999){ // This means that we did not touch any object
-            //This delete the object we just touch
-            //gp.obj[index] =  null;
+            if(inventory.size()  != maxInventorySize){
+                inventory.add(gamePanel.obj[index]);
+                gamePanel.playSE(1);
+                text = "Got a " + gamePanel.obj[index].name + "!";
+                gamePanel.obj[index] = null;
+            }
+            text = "You cannot carry any object any more";
+            gamePanel.ui.addMessage(text);
         }
     }
 
@@ -291,6 +297,27 @@ public class Player extends Entity{
             }
         }
 
+    }
+    public void selectItems() {
+        int itemIndex = gamePanel.ui.getItemIndexOnSlot();
+
+        if (itemIndex < inventory.size()) {
+            Entity selectedItem = inventory.get(itemIndex);
+
+            if (selectedItem.type == type_sword || selectedItem.type == type_axe) {
+                currentWeapon = selectedItem;
+                attack = getAttack();
+            }
+
+            if (selectedItem.type == type_shield) {
+                currentShield = selectedItem;
+                defense = getDefense();
+
+                if (selectedItem.type == type_consumable) {
+                    // TODO
+                }
+            }
+        }
     }
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
