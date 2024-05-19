@@ -41,6 +41,10 @@ public class AssetSetter {
         gamePanel.obj[i] = new OBJ_Shield_Blue(gamePanel);
         gamePanel.obj[i].worldX = gamePanel.tileSize*28;
         gamePanel.obj[i].worldY = gamePanel.tileSize*19;
+        i++;
+        gamePanel.obj[i] = new OBJ_Heart(gamePanel);
+        gamePanel.obj[i].worldX = gamePanel.tileSize*29;
+        gamePanel.obj[i].worldY = gamePanel.tileSize*19;
     }
 
     public void setNPC() {

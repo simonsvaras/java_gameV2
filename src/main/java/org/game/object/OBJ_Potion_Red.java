@@ -24,11 +24,8 @@ public class OBJ_Potion_Red extends Entity {
         gamePanel.ui.currentDialogue = "You drink the " + name + "!\n"
                 + "Your life has been recovered by " + value + ".";
 
-        entity.life = value;
+        entity.life += value;
 
-        if(gamePanel.player.life > gamePanel.player.maxLife){
-            gamePanel.player.life = gamePanel.player.maxLife;
-        }
         gamePanel.playSE(2);
 
     }

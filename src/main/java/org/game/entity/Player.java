@@ -203,6 +203,10 @@ public class Player extends Entity{
                 invincibleCounter = 0;
             }
         }
+
+        if(life > maxLife){
+            life = maxLife;
+        }
     }
 
     public void attacking(){

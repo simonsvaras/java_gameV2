@@ -116,6 +116,17 @@ public class Entity {
     }
 
     public void use(Entity entity){}
+    public void checkDrop(){}
+    public void dropItem(Entity droppedItem){
+        for(int i = 0; i < gamePanel.obj.length; i++){
+            if(gamePanel.obj[i] == null){
+                gamePanel.obj[i] = droppedItem;
+                gamePanel.obj[i].worldX = worldX; // The dead monsters worldX
+                gamePanel.obj[i].worldY = worldY;
+                break;
+            }
+        }
+    }
 
      public void update(){
         setAction();
