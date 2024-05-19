@@ -4,6 +4,7 @@ package org.game.main;
 import org.game.entity.NPC_OldMan;
 import org.game.monster.MON_GreenSlime;
 import org.game.object.*;
+import org.game.tile_interactive.IT_DryTree;
 
 public class AssetSetter {
     GamePanel gamePanel;
@@ -61,5 +62,13 @@ public class AssetSetter {
         gamePanel.monster[0] = new MON_GreenSlime(gamePanel);
         gamePanel.monster[0].worldX = gamePanel.tileSize*21;
         gamePanel.monster[0].worldY = gamePanel.tileSize*19;
+    }
+
+    public void setInteractiveTile (){
+        int i = 0;
+        gamePanel.interactiveTile[i] = new IT_DryTree(gamePanel, 33, 19);
+        i++;
+        gamePanel.interactiveTile[i] = new IT_DryTree(gamePanel, 33, 20);
+
     }
 }
