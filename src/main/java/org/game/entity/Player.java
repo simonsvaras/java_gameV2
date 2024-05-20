@@ -178,7 +178,7 @@ public class Player extends Entity{
             }
 
             if(keyH.enterPressed == true && attackCanceled == false){
-                gamePanel.playSE(7);
+                gamePanel.playSE(5);
                 isAttacking = true;
                 spriteCounter = 0;
             }
@@ -322,7 +322,8 @@ public class Player extends Entity{
 
     public void damageInteractiveTile(int index){
         if(index != 999 && gamePanel.interactiveTile[index].destructible && gamePanel.interactiveTile[index].isCorrectItem(this)){
-            gamePanel.interactiveTile[index] = null;
+            gamePanel.interactiveTile[index] = gamePanel.interactiveTile[index].getDestroyedForm();
+            gamePanel.interactiveTile[index].playSE();
 
         }
     }

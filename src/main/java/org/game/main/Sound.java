@@ -37,6 +37,7 @@ public class Sound {
             case 6: return "receivedamage.wav";
             case 7: return "levelup.wav";
             case 8: return "cursor.wav";
+            case 9: return "cuttree.wav";
             default: return null;
         }
     }

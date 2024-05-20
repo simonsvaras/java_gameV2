@@ -20,4 +20,12 @@ public class IT_DryTree extends InteractiveTile{
     public boolean isCorrectItem(Entity entity){
         return entity.currentWeapon.type == type_axe;
     }
+
+    public void playSE(){
+        gamePanel.playSE(9);
+    }
+    public InteractiveTile getDestroyedForm(){
+        InteractiveTile tile = new IT_Trunk(gamePanel, worldX/gamePanel.tileSize, worldY/gamePanel.tileSize);
+        return tile;
+    }
 }
