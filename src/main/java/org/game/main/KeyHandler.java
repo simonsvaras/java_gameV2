@@ -47,6 +47,11 @@ public class KeyHandler implements KeyListener {
         else if(gamePanel.gameState == gamePanel.characterState){
             characterState(code);
         }
+
+        // OPTION STATE
+        else if(gamePanel.gameState == gamePanel.optionState){
+            optionState(code);
+        }
     }
 
     public void  tittleState(int code){
@@ -94,6 +99,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
+        }
+        if(code == KeyEvent.VK_ESCAPE){
+            gamePanel.gameState = gamePanel.optionState;
         }
 
         // DEBUG
@@ -144,6 +152,14 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_ENTER){
             gamePanel.player.selectItems();
+        }
+    }
+    public void optionState(int code){
+        if(code == KeyEvent.VK_ESCAPE){
+            gamePanel.gameState = gamePanel.playState;
+        }
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
         }
     }
 

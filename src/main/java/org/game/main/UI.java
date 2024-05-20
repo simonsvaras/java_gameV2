@@ -18,6 +18,7 @@ public class UI {
     public int commandNum = 0;
     public int slotCol = 0;
     public int slotRow = 0;
+    int subState = 0;
 
     public UI(GamePanel gamePanel){
         this.gamePanel = gamePanel;
@@ -69,6 +70,12 @@ public class UI {
         if(gamePanel.gameState == gamePanel.characterState){
             drawCharacterScreen();
             drawInventory();
+        }
+
+        // CHARACTER STATE
+        if(gamePanel.gameState == gamePanel.optionState){
+            drawOptionScreen();
+
         }
 
     }
@@ -270,6 +277,63 @@ public class UI {
         g2.drawImage(gamePanel.player.currentWeapon.down1, tailX-gamePanel.tileSize, textY - 14, null );
         textY += gamePanel.tileSize;
         g2.drawImage(gamePanel.player.currentShield.down1, tailX - gamePanel.tileSize, textY - 14, null);
+    }
+
+    public void drawOptionScreen(){
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(32F));
+
+        // SUB WINDOW
+        int frameX = gamePanel.tileSize*4;
+        int frameY = gamePanel.tileSize;
+        int frameWidth = gamePanel.tileSize*8;
+        int frameHeight = gamePanel.tileSize*10;
+        drawSubWindow(frameX,frameY,frameWidth,frameHeight);
+
+        switch (subState){
+            case 0: options_top(frameX, frameY);break;
+            case 1: break;
+            case 2: break;
+        }
+    }
+
+    public void options_top(int frameX, int frameY){
+        int textX;
+        int textY;
+
+        // TITLE
+        String text = "Options";
+        textX = getXForCenteredText(text);
+        textY = frameY + gamePanel.tileSize;
+        g2.drawString(text, textX, textY);
+
+        // FULL SCREEN ON/OFF
+        textX = frameX + gamePanel.tileSize - gamePanel.tileSize/2;
+        textY += gamePanel.tileSize + gamePanel.tileSize/2;
+        g2.drawString("Full Screnn", textX,textY);
+
+        // MUSIC
+        textY += gamePanel.tileSize;
+        g2.drawString("Music", textX,textY);
+
+        // SE
+        textY += gamePanel.tileSize;
+        g2.drawString("SE", textX,textY);
+
+        // CONTROL
+        textY += gamePanel.tileSize;
+        g2.drawString("Control", textX,textY);
+
+        // END GAME
+        textY += gamePanel.tileSize;
+        g2.drawString("End Game", textX,textY);
+
+        // BACK
+        textY += gamePanel.tileSize*2;
+        g2.drawString("Back", textX,textY);
+
+;
+
     }
 
     public  void drawInventory() {
