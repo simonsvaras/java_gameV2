@@ -69,6 +69,7 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_ENTER){
             if(gamePanel.ui.commandNum == 0){
                 gamePanel.gameState = gamePanel.playState;
+                gamePanel.playMusic(0);
             }
             if(gamePanel.ui.commandNum == 1){
                 //TODO
@@ -160,6 +161,66 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_ENTER){
             enterPressed = true;
+        }
+
+        int maxCommandNum = 0;
+        switch (gamePanel.ui.subState){
+            case 0: maxCommandNum = 5; break;
+            case 3: maxCommandNum = 1; break;
+        }
+
+        if(code == KeyEvent.VK_W){
+            gamePanel.ui.commandNum--;
+            gamePanel.playSE(8);
+            if(gamePanel.ui.commandNum < 0){
+                gamePanel.ui.commandNum = maxCommandNum;
+            }
+        }
+        if(code == KeyEvent.VK_S){
+            gamePanel.ui.commandNum++;
+            gamePanel.playSE(8);
+            if(gamePanel.ui.commandNum > maxCommandNum){
+                gamePanel.ui.commandNum = 0;
+            }
+        }
+        if(code == KeyEvent.VK_A){
+            if(gamePanel.ui.subState == 0){
+                if(gamePanel.ui.commandNum == 1 && gamePanel.music.volumeScale > 0){
+                    gamePanel.music.volumeScale--;
+                    gamePanel.music.checkVolume();
+                    gamePanel.playSE(9);
+                    gamePanel.music.loadSound();
+                }
+
+                if(gamePanel.ui.commandNum == 2 && gamePanel.soundEF.volumeScale > 0){
+                    gamePanel.soundEF.volumeScale--;
+                    gamePanel.soundEF.checkVolume();
+                    gamePanel.playSE(9);
+                    gamePanel.soundEF.loadSound();
+                }
+
+            }
+
+
+        }
+
+        if(code == KeyEvent.VK_D){
+            if(gamePanel.ui.subState == 0){
+                if(gamePanel.ui.commandNum == 1 && gamePanel.music.volumeScale < 5){
+                    gamePanel.music.volumeScale++;
+                    gamePanel.music.checkVolume();
+                    gamePanel.playSE(9);
+                    gamePanel.music.loadSound();
+                }
+
+                if(gamePanel.ui.commandNum == 2 && gamePanel.soundEF.volumeScale < 5){
+                    gamePanel.soundEF.volumeScale++;
+                    gamePanel.soundEF.checkVolume();
+                    gamePanel.playSE(9);
+                    gamePanel.soundEF.loadSound();
+                }
+
+            }
         }
     }
 
