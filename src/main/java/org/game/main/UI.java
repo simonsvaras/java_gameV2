@@ -510,9 +510,26 @@ public class UI {
                 g2.fillRoundRect(slotX, slotY, gamePanel.tileSize, gamePanel.tileSize, 10, 10);
             }
 
-
-
             g2.drawImage(gamePanel.player.inventory.get(i).down1, slotX, slotY,null);
+
+            // DISPLAY AMOUNT
+            if(gamePanel.player.inventory.get(i).amount > 1){
+                g2.setFont(g2.getFont().deriveFont(32f));
+                int amountX;
+                int amountY;
+
+                String s = "" + gamePanel.player.inventory.get(i).amount;
+                amountX = getXForAlignToRightText(s, slotX + 44);
+                amountY = slotY + gamePanel.tileSize;
+
+                // SHADOW
+                g2.setColor(new Color(60,60,60));
+                g2.drawString(s,amountX, amountY);
+
+                // NUMBER
+                g2.setColor(Color.WHITE);
+                g2.drawString(s, amountX-3, amountY-3);
+            }
 
             slotX += slotSize;
 

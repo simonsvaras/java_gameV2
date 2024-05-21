@@ -12,6 +12,7 @@ public class OBJ_Potion_Red extends Entity {
         name = "Red potion";
         type = type_consumable;
         value = 5;
+        stackable = true;
 
         down1 = setup("/objects/potion_red", gamePanel.tileSize,gamePanel.tileSize);
         description = "[Red Potion]\nHeals your life by" + value + ".";
