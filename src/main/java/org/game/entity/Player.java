@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends Entity{
+public class Player extends Entity {
 
     KeyHandler keyH;
 
