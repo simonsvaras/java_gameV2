@@ -35,4 +35,14 @@ public class PlayState implements GameState{
         // Vykreslení herního stavu, hráče, nepřátel, mapy atd.
         player.draw(g2);
     }
+
+    @Override
+    public void exit(C_GamePanel gamePanel) {
+
+    }
+
+    @Override
+    public void enter(C_GamePanel gamePanel) {
+
+    }
 }

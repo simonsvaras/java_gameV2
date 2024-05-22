@@ -15,7 +15,7 @@ public abstract class GameObject extends M_Entity implements Interactable {
 
     public GameObject(C_GamePanel gamePanel, String imagePath) {
         super(gamePanel);
-        this.image = setup(imagePath, gamePanel.tileSize, gamePanel.tileSize);
+        this.image = setup(imagePath, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
     }
 
 

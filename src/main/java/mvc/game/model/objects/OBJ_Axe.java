@@ -10,7 +10,7 @@ public class OBJ_Axe extends GameObject{
         super(gamePanel, imagePath);
         name = "Axe";
         type = TYPE_AXE;
-        downImage1 = setup("/objects/axe", gamePanel.tileSize, gamePanel.tileSize);
+        downImage1 = setup("/objects/axe", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
 
         attackValue = 2;
 

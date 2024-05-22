@@ -17,8 +17,8 @@ public class M_Player extends M_Entity{
         this.inventory = new Inventory();
 
         // making exact middle point of screen to be sure our player will be always in the middle
-        screenX = gamePanel.screenWidth/2 - (gamePanel.tileSize/2);
-        screenY = gamePanel.screenHeight/2 - (gamePanel.tileSize/2);
+        screenX = C_GamePanel.SCREEN_WIDTH /2 - (C_GamePanel.TILE_SIZE /2);
+        screenY = C_GamePanel.SCREEN_HEIGHT /2 - (C_GamePanel.TILE_SIZE /2);
     }
 
     public Inventory getInventory() {

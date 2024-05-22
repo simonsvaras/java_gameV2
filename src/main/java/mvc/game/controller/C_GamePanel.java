@@ -3,29 +3,27 @@ package mvc.game.controller;
 import mvc.game.model.M_Player;
 import mvc.game.state.GameState;
 import mvc.game.state.TitleState;
-import org.game.entity.Player;
-import org.game.main.UI;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class C_GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
-    final int originalTileSize = 16;
-    final int scale = 3;
-    final public int tileSize = originalTileSize * scale;
-    final public int maxScreenCol = 16;
-    final public int maxScreenRow = 12;
-    final public int screenWidth = tileSize * maxScreenCol;
-    final public int screenHeight = tileSize * maxScreenRow;
+    final static int ORIGINAL_TILE_SIZE = 16;
+    final static int SCALE = 3;
+    final static public int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    final static public int MAX_SCREEN_COL = 16;
+    final static public int MAX_SCREEN_ROW  = 12;
+    final static public int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+    final public static int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
 
     // WORLD SETTINGS
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
+    public static final int MAX_WORLD_COL = 50;
+    public static final int MAX_WORLD_ROW = 50;
 
 
     // FPS SETTINGS
-    int FPS = 60;
+    private static final int FPS = 60;
 
     // MANAGERS
     C_EntityManager entityManager = new C_EntityManager();
@@ -38,7 +36,7 @@ public class C_GamePanel extends JPanel implements Runnable {
     public M_Player player = new M_Player(this);
 
     // THREAD
-    Thread gameThread;
+    private Thread gameThread;
 
     // GAME STATE
     private GameState currentState;
@@ -55,13 +53,13 @@ public class C_GamePanel extends JPanel implements Runnable {
      */
 
     public C_GamePanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(MAX_SCREEN_ROW , SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
 
-        setCurrentState(new TitleState());
+        setCurrentState(new TitleState(this));
     }
 
 
@@ -111,7 +109,11 @@ public class C_GamePanel extends JPanel implements Runnable {
     }
 
     public void setCurrentState(GameState state) {
+        if (this.currentState != null) {
+            this.currentState.exit(this);
+        }
         this.currentState = state;
+        this.currentState.enter(this);
     }
 
     public void startGame() {

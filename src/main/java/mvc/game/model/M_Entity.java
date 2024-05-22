@@ -8,7 +8,14 @@ import java.awt.image.BufferedImage;
 public abstract class M_Entity {
     protected C_GamePanel gamePanel;
 
-    protected BufferedImage upImage1, downImage1, leftImage1, rightImage1, upImage2, downImage2, leftImage2, rightImage2;
+    protected BufferedImage upImage1;
+    public BufferedImage downImage1;
+    protected BufferedImage leftImage1;
+    protected BufferedImage rightImage1;
+    protected BufferedImage upImage2;
+    protected BufferedImage downImage2;
+    protected BufferedImage leftImage2;
+    protected BufferedImage rightImage2;
     protected BufferedImage attackUpImages, attackDownImages, attackLeftImages, attackRightImages;
     public BufferedImage image, image2, image3;
     protected Rectangle solidArea;

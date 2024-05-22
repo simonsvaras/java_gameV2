@@ -1,7 +1,6 @@
 package mvc.game.model.tile;
 
 import mvc.game.controller.C_GamePanel;
-import org.game.main.GamePanel;
 import org.game.main.UtilityTool;
 
 import javax.imageio.ImageIO;
@@ -21,7 +20,7 @@ public class TileManager {
         this.gamePanel = gamePanel;
         tile = new mvc.game.model.tile.Tile[10];
 
-        mapTileNum = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
+        mapTileNum = new int[C_GamePanel.MAX_WORLD_COL][C_GamePanel.MAX_WORLD_ROW];
 
         getTileImage();
         loadMap("/maps/world01.txt");
@@ -49,7 +48,7 @@ public class TileManager {
         try {
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/"+ imageName +".png")));
-            tile[index].image = utilityTool.scaleImage(tile[index].image,gamePanel.tileSize, gamePanel.tileSize);
+            tile[index].image = utilityTool.scaleImage(tile[index].image, C_GamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
             tile[index].collision = collision;
 
         }catch (IOException e){
@@ -66,17 +65,17 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
-            while (col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow){
+            while (col < C_GamePanel.MAX_WORLD_COL && row < C_GamePanel.MAX_WORLD_ROW){
                 String line = br.readLine();
 
-                while (col < gamePanel.maxWorldCol) {
+                while (col < C_GamePanel.MAX_WORLD_COL) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
 
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if(col == gamePanel.maxWorldCol){
+                if(col == C_GamePanel.MAX_WORLD_COL){
                     col = 0;
                     row++;
                 }
@@ -93,21 +92,21 @@ public class TileManager {
         int worldCol = 0;
         int worldRow = 0;
 
-        while (worldCol < gamePanel.maxWorldCol && worldRow < gamePanel.maxWorldRow) {
+        while (worldCol < C_GamePanel.MAX_WORLD_COL && worldRow < C_GamePanel.MAX_WORLD_ROW) {
 
             int tileNum = mapTileNum[worldCol][worldRow];
 
             // worldX and worldY are position on the map
-            int worldX = worldCol * gamePanel.tileSize;
-            int worldY = worldRow * gamePanel.tileSize;
+            int worldX = worldCol * C_GamePanel.TILE_SIZE;
+            int worldY = worldRow * C_GamePanel.TILE_SIZE;
             // screenX and screenY is where we draw it against players position
             int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX; // offset the difference when player is in the corner
             int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
 
-            if (worldX + gamePanel.tileSize > gamePanel.player.worldX - gamePanel.player.screenX &&
-                    worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX &&
-                    worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY &&
-                    worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY) {
+            if (worldX + C_GamePanel.TILE_SIZE > gamePanel.player.worldX - gamePanel.player.screenX &&
+                    worldX - C_GamePanel.TILE_SIZE < gamePanel.player.worldX + gamePanel.player.screenX &&
+                    worldY + C_GamePanel.TILE_SIZE > gamePanel.player.worldY - gamePanel.player.screenY &&
+                    worldY - C_GamePanel.TILE_SIZE < gamePanel.player.worldY + gamePanel.player.screenY) {
 
                 g2.drawImage(tile[tileNum].image, screenX, screenY,null);
             }
@@ -116,7 +115,7 @@ public class TileManager {
             worldCol++;
 
 
-            if(worldCol == gamePanel.maxWorldCol){
+            if(worldCol == C_GamePanel.MAX_WORLD_COL){
                 worldCol = 0;
                 worldRow++;
 
