@@ -53,13 +53,20 @@ public class C_GamePanel extends JPanel implements Runnable {
      */
 
     public C_GamePanel() {
-        this.setPreferredSize(new Dimension(MAX_SCREEN_ROW , SCREEN_HEIGHT));
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH , SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-
         setCurrentState(new TitleState(this));
+    }
+
+    public void setupGame(){
+
+    }
+    public void startGame() {
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
 
@@ -116,9 +123,6 @@ public class C_GamePanel extends JPanel implements Runnable {
         this.currentState.enter(this);
     }
 
-    public void startGame() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
+
 }
 

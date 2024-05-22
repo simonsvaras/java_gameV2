@@ -13,9 +13,9 @@ public abstract class GameObject extends M_Entity implements Interactable {
 
     protected int healAmount;
 
-    public GameObject(C_GamePanel gamePanel, String imagePath) {
+    public GameObject(C_GamePanel gamePanel) {
         super(gamePanel);
-        this.image = setup(imagePath, gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+
     }
 
 

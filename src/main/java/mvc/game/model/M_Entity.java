@@ -1,22 +1,19 @@
 package mvc.game.model;
 
 import mvc.game.controller.C_GamePanel;
+import mvc.game.model.objects.Interactable;
+import mvc.game.utility.UtilityTool;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public abstract class M_Entity {
     protected C_GamePanel gamePanel;
 
-    protected BufferedImage upImage1;
-    public BufferedImage downImage1;
-    protected BufferedImage leftImage1;
-    protected BufferedImage rightImage1;
-    protected BufferedImage upImage2;
-    protected BufferedImage downImage2;
-    protected BufferedImage leftImage2;
-    protected BufferedImage rightImage2;
-    protected BufferedImage attackUpImages, attackDownImages, attackLeftImages, attackRightImages;
+
     public BufferedImage image, image2, image3;
     protected Rectangle solidArea;
     protected Rectangle attackArea;
@@ -57,6 +54,8 @@ public abstract class M_Entity {
     protected M_Entity currentWeapon;
     protected M_Entity currentShield;
 
+    public int solidAreaDefaultX, solidAreaDefaultY;
+
     // ITEM ATTRIBUTES
     protected int attackValue;
     protected int value;
@@ -94,76 +93,21 @@ public abstract class M_Entity {
 
     public abstract void update();
     public abstract void draw(Graphics2D g2);
-    public abstract void setAction();
-    public abstract void damageReaction();
-    public abstract void checkDrop();
-
-    public void speak() {
-        if (dialogues[dialogueIndex] == null) {
-            dialogueIndex = 0;
-        }
-        gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
-        dialogueIndex++;
-
-        switch (gamePanel.player.direction) {
-            case "up":
-                direction = "down";
-                break;
-            case "down":
-                direction = "up";
-                break;
-            case "left":
-                direction = "right";
-                break;
-            case "right":
-                direction = "left";
-                break;
-        }
-    }
-
-    public void use(M_Entity entity) {}
-
-    public void dropItem(M_Entity droppedItem) {
-        for (int i = 0; i < gamePanel.obj.length; i++) {
-            if (gamePanel.obj[i] == null) {
-                gamePanel.obj[i] = droppedItem;
-                gamePanel.obj[i].worldX = worldX;
-                gamePanel.obj[i].worldY = worldY;
-                break;
-            }
-        }
-    }
-
-    protected void dyingAnimation(Graphics2D g2) {
-        dyingCounter++;
-        int interval = 8;
-        if (dyingCounter <= interval * 8) {
-            float alphaValue = (dyingCounter / interval) % 2 == 0 ? 0.0f : 1.0f;
-            changeAlpha(g2, alphaValue);
-        } else {
-            dying = false;
-            alive = false;
-        }
-    }
-
-    private void changeAlpha(Graphics2D g2, float alphaValue) {
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
-    }
 
     public BufferedImage setup(String imagePath, int width, int height) {
-        /*
+
         UtilityTool utilityTool = new UtilityTool();
         BufferedImage image = null;
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
             image = utilityTool.scaleImage(image, width, height);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         return image;
 
-         */
+
     }
 
     public void moveUp() {

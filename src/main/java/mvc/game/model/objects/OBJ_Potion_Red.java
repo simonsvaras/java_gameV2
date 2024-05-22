@@ -6,12 +6,26 @@ import mvc.game.model.M_Player;
 import java.awt.*;
 
 public class OBJ_Potion_Red extends GameObject{
-    public OBJ_Potion_Red(C_GamePanel gamePanel, String imagePath) {
-        super(gamePanel, imagePath);
+    public OBJ_Potion_Red(C_GamePanel gamePanel) {
+        super(gamePanel);
 
         name = "Red Potion";
         healAmount = 5;
+        image = setup("/objects/potion_red", C_GamePanel.TILE_SIZE,C_GamePanel.TILE_SIZE);
+
+        stackable = true;
+
         description = "[Red Potion]\nHeals your life by " + healAmount + ".";
+    }
+
+    @Override
+    public void interact(M_Player player) {
+
+    }
+
+    @Override
+    public void pickUp(M_Player player) {
+
     }
 
     @Override
@@ -24,21 +38,9 @@ public class OBJ_Potion_Red extends GameObject{
 
     }
 
-    @Override
-    public void setAction() {
 
-    }
 
-    @Override
-    public void damageReaction() {
-
-    }
-
-    @Override
-    public void checkDrop() {
-
-    }
-
+    /*
     @Override
     public void interact(M_Player player) {
         player.heal(healAmount);
@@ -50,4 +52,6 @@ public class OBJ_Potion_Red extends GameObject{
     public void pickUp(M_Player player) {
         player.getInventory().addItem(this);
     }
+
+     */
 }

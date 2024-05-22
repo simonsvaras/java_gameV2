@@ -6,11 +6,11 @@ import mvc.game.model.M_Player;
 import java.awt.*;
 
 public class OBJ_Axe extends GameObject{
-    public OBJ_Axe(C_GamePanel gamePanel, String imagePath) {
-        super(gamePanel, imagePath);
+    public OBJ_Axe(C_GamePanel gamePanel) {
+        super(gamePanel);
         name = "Axe";
         type = TYPE_AXE;
-        downImage1 = setup("/objects/axe", gamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
+        image = setup("/objects/axe", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE);
 
         attackValue = 2;
 
@@ -40,18 +40,5 @@ public class OBJ_Axe extends GameObject{
 
     }
 
-    @Override
-    public void setAction() {
 
-    }
-
-    @Override
-    public void damageReaction() {
-
-    }
-
-    @Override
-    public void checkDrop() {
-
-    }
 }

@@ -1,5 +1,6 @@
 package mvc.game.model.invenory;
 
+import mvc.game.model.M_Entity;
 import mvc.game.model.objects.GameObject;
 import mvc.game.model.objects.Interactable;
 
@@ -7,23 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory {
-    private List<Interactable> items;
+    private List<M_Entity> items;
 
     public Inventory() {
         this.items = new ArrayList<>();
     }
 
-    public void addItem(Interactable item) {
+    public void addItem(M_Entity item) {
         this.items.add(item);
         // Zde můžete přidat další logiku, např. aktualizace UI inventáře
     }
 
-    public boolean removeItem(Interactable item) {
+    public boolean removeItem(M_Entity item) {
         return this.items.remove(item);
         // Můžete přidat logiku pro aktualizaci UI po odebrání položky
     }
 
-    public List<Interactable> getItems() {
+    public List<M_Entity> getItems() {
         return items;
     }
 
