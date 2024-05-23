@@ -30,15 +30,7 @@ public class OBJ_Axe extends GameObject{
         player.getInventory().addItem(this);
     }
 
-    @Override
-    public void update() {
 
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
 
 
 }

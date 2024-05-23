@@ -28,16 +28,6 @@ public class OBJ_Potion_Red extends GameObject{
 
     }
 
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
-
 
 
     /*

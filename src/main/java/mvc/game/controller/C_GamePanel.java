@@ -1,7 +1,6 @@
 package mvc.game.controller;
 
-import mvc.game.model.M_Entity;
-import mvc.game.model.M_Player;
+import mvc.game.model.*;
 import mvc.game.model.tile.TileManager;
 import mvc.game.state.GameState;
 import mvc.game.state.TitleState;
@@ -10,7 +9,10 @@ import mvc.game.view.TileRenderer;
 import org.game.entity.Entity;
 
 import javax.swing.*;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class C_GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
@@ -30,14 +32,15 @@ public class C_GamePanel extends JPanel implements Runnable {
     // FPS SETTINGS
     private static final int FPS = 60;
 
-    // MANAGERS
-    C_EntityManager entityManager = new C_EntityManager();
-    C_RenderManager renderManager = new C_RenderManager();
-    public C_KeyHandler keyHandler = new C_KeyHandler(this);  // Assuming existing KeyHandler class
-
 
     // ENTITY
     public M_Entity player = new M_Player(this);
+    public List<M_NPCs> NPCs = new ArrayList<M_NPCs>();
+
+
+    // MANAGERS
+    private final C_EntityManager entityManager = new C_EntityManager(this);
+    public C_KeyHandler keyHandler = new C_KeyHandler(this);
 
     // VIEW
     private final TileManager tileManager = new TileManager(this);
@@ -50,16 +53,7 @@ public class C_GamePanel extends JPanel implements Runnable {
     // GAME STATE
     private GameState currentState;
 
-    /*
-    public int gameState;
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int pauseState = 2;
-    public final int dialogueState = 3;
-    public final int characterState = 4;
-    public final int optionState = 5;
 
-     */
 
     public C_GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH , SCREEN_HEIGHT));
@@ -72,8 +66,10 @@ public class C_GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame(){
-
+        this.entityManager.setNPC();
     }
+
+
     public void startGame() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -143,6 +139,9 @@ public class C_GamePanel extends JPanel implements Runnable {
 
     public M_Player getPlayer(){
         return (M_Player) player;
+    }
+    public ArrayList<M_NPCs> getNpcs(){
+        return (ArrayList<M_NPCs>) NPCs;
     }
 }
 

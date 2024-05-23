@@ -33,7 +33,6 @@ public class PlayerRenderer {
 
         BufferedImage image = player.getCurrentFrame(player.spriteNum);
         g2.drawImage(image, tempScreenX, tempScreenY, null);
-
     }
 
     /*

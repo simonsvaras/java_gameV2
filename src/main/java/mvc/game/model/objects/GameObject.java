@@ -13,6 +13,13 @@ public abstract class GameObject extends M_Entity implements Interactable {
 
     protected int healAmount;
 
+    // ITEM ATTRIBUTES
+    public int attackValue;
+    protected int value;
+    public int defenseValue;
+    protected boolean stackable;
+    protected int amount;
+
     public GameObject(C_GamePanel gamePanel) {
         super(gamePanel);
 

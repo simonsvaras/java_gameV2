@@ -20,18 +20,6 @@ public class OBJ_Shield_Wood extends GameObject{
     }
 
 
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
-
-
-
 
     @Override
     public void interact(M_Player player) {

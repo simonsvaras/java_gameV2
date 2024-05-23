@@ -19,15 +19,6 @@ public class OBJ_Sword_Normal extends GameObject{
         attackArea.height = 40;
     }
 
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
 
     @Override
     public void interact(M_Player player) {

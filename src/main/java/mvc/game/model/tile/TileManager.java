@@ -104,6 +104,11 @@ public class TileManager {
         return tile[tileNum];
     }
 
+    public boolean isTileCollidable(int x, int y) {
+        int tileI = getTileAt(x,y);
+        return getTile(tileI).hasCollision();
+    }
+
 
     /*
     public void draw(Graphics2D g2){
