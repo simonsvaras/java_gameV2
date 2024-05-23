@@ -48,7 +48,7 @@ public class TitleScreenRenderer extends Utils {
     private void drawPlayerImage(Graphics2D g2) {
         int x = C_GamePanel.SCREEN_WIDTH / 2 - (C_GamePanel.TILE_SIZE * 2) / 2;
         int y = C_GamePanel.TILE_SIZE * 5;
-        g2.drawImage(gamePanel.player.downImage1, x, y, C_GamePanel.TILE_SIZE * 2, C_GamePanel.TILE_SIZE * 2, null);
+        g2.drawImage(gamePanel.getPlayer().getCurrentFrame(0), x, y, C_GamePanel.TILE_SIZE * 2, C_GamePanel.TILE_SIZE * 2, null);
     }
 
     private void drawMenu(Graphics2D g2) {

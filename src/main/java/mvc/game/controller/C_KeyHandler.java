@@ -53,4 +53,12 @@ public class C_KeyHandler implements KeyListener {
             action.run();
         }
     }
+
+    public void reset() {
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+        enterPressed = false;
+    }
 }

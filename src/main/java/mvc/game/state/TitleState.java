@@ -15,8 +15,25 @@ public class TitleState implements GameState{
     }
 
     @Override
-    public void update(C_GamePanel gamePanel) {
-        // Logika aktualizace pro TitleState
+    public void update() {
+        if (gamePanel.getKeyHandler().upPressed) {
+            titleScreenRenderer.commandNum--;
+            if (titleScreenRenderer.commandNum < 0) {
+                titleScreenRenderer.commandNum = 2;
+            }
+            gamePanel.getKeyHandler().reset();
+        }
+        if (gamePanel.getKeyHandler().downPressed) {
+            titleScreenRenderer.commandNum++;
+            if (titleScreenRenderer.commandNum > 2) {
+                titleScreenRenderer.commandNum = 0;
+            }
+            gamePanel.getKeyHandler().reset();
+        }
+        if (gamePanel.getKeyHandler().enterPressed) {
+            performAction();
+            gamePanel.getKeyHandler().reset();
+        }
     }
 
     @Override
@@ -24,13 +41,23 @@ public class TitleState implements GameState{
         titleScreenRenderer.drawTitleScreen(g2);
     }
 
-    @Override
-    public void exit(C_GamePanel gamePanel) {
-        // Logika pro ukončení TitleState, pokud je potřeba
-    }
 
-    @Override
-    public void enter(C_GamePanel gamePanel) {
-        // Logika pro inicializaci TitleState, pokud je potřeba
+    private void performAction() {
+        switch (titleScreenRenderer.commandNum) {
+            case 0:
+                // Start new game
+                System.out.println("Starting new game...");
+                gamePanel.setCurrentState(new PlayState(gamePanel));
+                break;
+            case 1:
+                // Load game
+                System.out.println("Loading game...");
+                break;
+            case 2:
+                // Quit game
+                System.out.println("Quitting game...");
+                System.exit(0);
+                break;
+        }
     }
 }

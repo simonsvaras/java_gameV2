@@ -12,22 +12,31 @@ import java.awt.image.BufferedImage;
 
 public class M_Player extends M_Entity{
     private Inventory inventory;
+    private Sprites sprite = new Sprites();
 
     // Screen position => doesnt change
     public final int screenX;
     public final int screenY;
     public  boolean attackCanceled = false;
 
-    protected BufferedImage upImage1;
+    public Direction direction;
+
+    public BufferedImage upImage1;
     public BufferedImage downImage1;
-    protected BufferedImage leftImage1;
-    protected BufferedImage rightImage1;
+    public BufferedImage leftImage1;
+    public BufferedImage rightImage1;
     protected BufferedImage upImage2;
-    protected BufferedImage downImage2;
-    protected BufferedImage leftImage2;
-    protected BufferedImage rightImage2;
-    protected BufferedImage attackUpImages1, attackDownImages1, attackLeftImages1, attackRightImages1;
-    protected BufferedImage attackUpImages2, attackDownImages2, attackLeftImages2, attackRightImages2;
+    public BufferedImage downImage2;
+    public BufferedImage leftImage2;
+    public BufferedImage rightImage2;
+    public BufferedImage attackUpImages1;
+    public BufferedImage attackDownImages1;
+    public BufferedImage attackLeftImages1;
+    public BufferedImage attackRightImages1;
+    public BufferedImage attackUpImages2;
+    public BufferedImage attackDownImages2;
+    public BufferedImage attackLeftImages2;
+    public BufferedImage attackRightImages2;
 
 
     public static final int DEFAULT_AREA = 32;
@@ -51,8 +60,10 @@ public class M_Player extends M_Entity{
         solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
-        getPlayerImage();
-        getPlayerAttackImage();
+        //getPlayerImage();
+        loadPlayerSprites();
+        loadPlayersAttackSprites();
+        //getPlayerAttackImage();
         setItems();
     }
 
@@ -64,7 +75,7 @@ public class M_Player extends M_Entity{
         // speed
         speed = 5;
         // direction for sprites
-        direction = "down";
+        direction = Direction.DOWN;
 
         // PLAYER STATUS
         level = 1;
@@ -97,6 +108,77 @@ public class M_Player extends M_Entity{
     }
 
 
+    public void loadPlayerSprites(){
+        sprite.loadSprite("up", setup("/player/boy_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/boy_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+        sprite.loadSprite("down", setup("/player/boy_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/boy_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+        sprite.loadSprite("left", setup("/player/boy_left_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/boy_left_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+        sprite.loadSprite("right", setup("/player/boy_right_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/boy_right_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+    }
+
+    public void loadPlayersAttackSprites(){
+        if(currentWeapon.type == TYPE_SWORD){
+            sprite.loadSprite("attack_up", setup("/player/Attacking/boy_attack_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+            sprite.loadSprite("attack_down", setup("/player/Attacking/boy_attack_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+            sprite.loadSprite("attack_left", setup("/player/Attacking/boy_attack_left_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_left_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+            sprite.loadSprite("attack_right", setup("/player/Attacking/boy_attack_right_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_right_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+
+        } else if (currentWeapon.type == TYPE_AXE) {
+            sprite.loadSprite("attack_up", setup("/player/Attacking/boy_axe_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+            sprite.loadSprite("attack_down", setup("/player/Attacking/boy_axe_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+            sprite.loadSprite("attack_left", setup("/player/Attacking/boy_axe_left_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_left_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+            sprite.loadSprite("attack_right", setup("/player/Attacking/boy_axe_right_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_right_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
+        }
+    }
+
+
+    public BufferedImage getCurrentFrame(int frameIndex) {
+        String actionKey = direction.toString().toLowerCase();
+        if (isAttacking) {
+            actionKey = "attack_" + actionKey;
+        }
+        return sprite.getFrame(actionKey, frameIndex);
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void moveUp() {
+        direction = Direction.UP;
+        worldY -= speed;
+    }
+
+    public void moveDown() {
+        direction = Direction.DOWN;
+        worldY += speed;
+    }
+
+    public void moveLeft() {
+        direction = Direction.LEFT;
+        worldX -= speed;
+    }
+
+    public void moveRight() {
+        direction = Direction.RIGHT;
+        worldX += speed;
+    }
+
+    public int getSpeed(){
+        return speed;
+    }
+
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void draw(Graphics2D g2) {
+
+    }
+
+       /*
     public void getPlayerImage() {
         // SETUP SPRITES
         upImage1 = setup("/player/boy_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE);
@@ -131,20 +213,7 @@ public class M_Player extends M_Entity{
         }
     }
 
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-
-    }
+     */
 
 
 }

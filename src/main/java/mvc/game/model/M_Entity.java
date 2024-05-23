@@ -15,7 +15,7 @@ public abstract class M_Entity {
 
 
     public BufferedImage image, image2, image3;
-    protected Rectangle solidArea;
+    public Rectangle solidArea;
     protected Rectangle attackArea;
     protected boolean collision;
     public String[] dialogues = new String[20];
@@ -23,12 +23,12 @@ public abstract class M_Entity {
     // STATE
     public int worldX;
     public int worldY;
-    protected String direction;
-    protected int spriteNum;
+    public String direction = "down";
+    public int spriteNum;
     protected boolean invincible;
-    protected boolean collisionOn;
+    public boolean collisionOn;
     protected int dialogueIndex;
-    protected boolean isAttacking;
+    public boolean isAttacking;
     protected boolean alive;
     protected boolean dying;
 
@@ -82,7 +82,7 @@ public abstract class M_Entity {
         attackArea = new Rectangle(0, 0, 0, 0);
         collision = false;
         direction = "down";
-        spriteNum = 1;
+        spriteNum = 0;
         invincible = false;
         collisionOn = false;
         dialogueIndex = 0;

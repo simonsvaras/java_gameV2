@@ -1,8 +1,13 @@
 package mvc.game.controller;
 
+import mvc.game.model.M_Entity;
 import mvc.game.model.M_Player;
+import mvc.game.model.tile.TileManager;
 import mvc.game.state.GameState;
 import mvc.game.state.TitleState;
+import mvc.game.view.GameView;
+import mvc.game.view.TileRenderer;
+import org.game.entity.Entity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,9 +36,13 @@ public class C_GamePanel extends JPanel implements Runnable {
     public C_KeyHandler keyHandler = new C_KeyHandler(this);  // Assuming existing KeyHandler class
 
 
-
     // ENTITY
-    public M_Player player = new M_Player(this);
+    public M_Entity player = new M_Player(this);
+
+    // VIEW
+    private final TileManager tileManager = new TileManager(this);
+    private final TileRenderer tileRenderer = new TileRenderer(this, tileManager);
+    private final GameView gameView = new GameView(this, tileRenderer);
 
     // THREAD
     private Thread gameThread;
@@ -58,6 +67,7 @@ public class C_GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+
         setCurrentState(new TitleState(this));
     }
 
@@ -100,7 +110,7 @@ public class C_GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        currentState.update(this);
+        currentState.update();
     }
 
     @Override
@@ -108,7 +118,7 @@ public class C_GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         //renderManager.render(g2, entityManager.getEntities());
-        currentState.render(g2);
+        gameView.render(g2);
     }
 
     public C_KeyHandler getKeyHandler() {
@@ -117,12 +127,22 @@ public class C_GamePanel extends JPanel implements Runnable {
 
     public void setCurrentState(GameState state) {
         if (this.currentState != null) {
-            this.currentState.exit(this);
+            //this.currentState.exit(this);
         }
         this.currentState = state;
-        this.currentState.enter(this);
+        //this.currentState.enter(this);
     }
 
+    public GameState getCurrentState() {
+        return currentState;
+    }
 
+    public TileManager getTileManager(){
+        return tileManager;
+    }
+
+    public M_Player getPlayer(){
+        return (M_Player) player;
+    }
 }
 

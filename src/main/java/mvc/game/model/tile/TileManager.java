@@ -43,7 +43,7 @@ public class TileManager {
      * @param imageName
      * @param collision
      */
-    public void setup(int index, String imageName, boolean collision){
+    private void setup(int index, String imageName, boolean collision){
         UtilityTool utilityTool = new UtilityTool();
         try {
             tile[index] = new Tile();
@@ -56,7 +56,7 @@ public class TileManager {
         }
     }
 
-    public  void loadMap(String filePath) {
+    private  void loadMap(String filePath) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             assert is != null;
@@ -87,6 +87,25 @@ public class TileManager {
         }
     }
 
+
+    public Tile[] getTiles() {
+        return tile;
+    }
+
+    public int[][] getMapTileNum() {
+        return mapTileNum;
+    }
+
+    public int getTileAt(int x, int y) {
+        return mapTileNum[x][y];
+    }
+
+    public Tile getTile(int tileNum) {
+        return tile[tileNum];
+    }
+
+
+    /*
     public void draw(Graphics2D g2){
 
         int worldCol = 0;
@@ -122,5 +141,7 @@ public class TileManager {
             }
         }
 
+     */
+
     }
-}
+
