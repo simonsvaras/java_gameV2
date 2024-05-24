@@ -1,0 +1,21 @@
+<!--
+-DlogLevel=off
+-DlogLevel=debug
+-DlogLevel=fatal
+-->
+
+<Configuration>
+    <Properties>
+        <Property name="logLevel">info</Property>  <!-- Default log level -->
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="${sys:logLevel}">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

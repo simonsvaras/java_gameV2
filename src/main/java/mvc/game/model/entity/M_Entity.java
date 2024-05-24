@@ -138,4 +138,8 @@ public abstract class M_Entity {
         spriteNum = 0;
         spriteCounter = 0;
     }
+
+    public String getName(){
+        return  name;
+    }
 }

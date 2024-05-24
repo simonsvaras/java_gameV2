@@ -4,11 +4,15 @@ import mvc.game.controller.C_GamePanel;
 import mvc.game.view.TitleScreenRenderer;
 
 import java.awt.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents the title screen state of the game.
  */
 public class TitleState implements GameState {
+    private static final Logger logger = LogManager.getLogger(TitleState.class);
+
     private final C_GamePanel gamePanel;
     private final TitleScreenRenderer titleScreenRenderer;
 
@@ -20,6 +24,7 @@ public class TitleState implements GameState {
     public TitleState(C_GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.titleScreenRenderer = new TitleScreenRenderer(gamePanel);
+        logger.info("TitleState initialized.");
     }
 
     /**
@@ -33,6 +38,7 @@ public class TitleState implements GameState {
             if (titleScreenRenderer.commandNum < 0) {
                 titleScreenRenderer.commandNum = 2;
             }
+            logger.debug("Menu selection changed: commandNum={}", titleScreenRenderer.commandNum);
             gamePanel.getKeyHandler().reset();
         }
         if (gamePanel.getKeyHandler().downPressed) {
@@ -40,9 +46,11 @@ public class TitleState implements GameState {
             if (titleScreenRenderer.commandNum > 2) {
                 titleScreenRenderer.commandNum = 0;
             }
+            logger.debug("Menu selection changed: commandNum={}", titleScreenRenderer.commandNum);
             gamePanel.getKeyHandler().reset();
         }
         if (gamePanel.getKeyHandler().enterPressed) {
+            logger.info("Enter pressed, performing action for commandNum={}", titleScreenRenderer.commandNum);
             performAction();
             gamePanel.getKeyHandler().reset();
         }
@@ -65,16 +73,16 @@ public class TitleState implements GameState {
         switch (titleScreenRenderer.commandNum) {
             case 0:
                 // Start new game
-                System.out.println("Starting new game...");
+                logger.info("Starting new game.");
                 gamePanel.setCurrentState(new PlayState(gamePanel));
                 break;
             case 1:
                 // Load game
-                System.out.println("Loading game...");
+                logger.info("Loading game.");
                 break;
             case 2:
                 // Quit game
-                System.out.println("Quitting game...");
+                logger.info("Quitting game.");
                 System.exit(0);
                 break;
         }

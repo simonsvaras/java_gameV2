@@ -9,12 +9,17 @@ import mvc.game.model.objects.OBJ_Shield_Wood;
 import mvc.game.model.objects.OBJ_Sword_Normal;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents the player in the game.
  */
 public class M_Player extends LiveObjects {
+
+    private static final Logger logger = LogManager.getLogger(M_Player.class);
     private Inventory inventory;
 
     /**
@@ -46,15 +51,6 @@ public class M_Player extends LiveObjects {
         super(gamePanel);
         this.inventory = new Inventory();
 
-        // SET COLLISION AREA
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidArea.height = DEFAULT_AREA;
-        solidArea.width = DEFAULT_AREA;
-
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
         loadPlayerSprites();
@@ -68,11 +64,13 @@ public class M_Player extends LiveObjects {
     public void setDefaultValues() {
         // Starting position
         worldX = C_GamePanel.TILE_SIZE * 23;
-        worldY = C_GamePanel.TILE_SIZE * 21;
+        worldY = C_GamePanel.TILE_SIZE * 23;
         // Speed
         speed = 5;
         // Direction for sprites
         direction = Direction.DOWN;
+
+        name = "Blue Player";
 
         // PLAYER STATUS
         level = 1;
@@ -86,6 +84,18 @@ public class M_Player extends LiveObjects {
         currentShield = new OBJ_Shield_Wood(gamePanel);
         attack = getAttack();
         defense = getDefense();
+
+        // SET COLLISION AREA
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.height = DEFAULT_AREA;
+        solidArea.width = DEFAULT_AREA;
+
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+
+        logger.debug("Default player values set: X={}, Y={}, Level={}, Life={}", worldX, worldY, level, life);
     }
 
     /**
@@ -96,6 +106,8 @@ public class M_Player extends LiveObjects {
         inventory.addItem(currentShield);
         inventory.addItem(new OBJ_Potion_Red(gamePanel));
         inventory.addItem(new OBJ_Potion_Red(gamePanel));
+        logger.info("Initial items set. Inventory contains {} items.", inventory.getItems().size());
+
     }
 
     /**
@@ -105,6 +117,7 @@ public class M_Player extends LiveObjects {
      */
     public int getAttack() {
         attackArea = currentWeapon.attackArea;
+        logger.debug("Total attack calculated: {}", attack);
         return attack = strength * currentWeapon.attackValue;
     }
 
@@ -114,7 +127,9 @@ public class M_Player extends LiveObjects {
      * @return The total defense value.
      */
     public int getDefense() {
-        return defense = dexterity * currentShield.defenseValue;
+        defense = dexterity * currentShield.defenseValue;
+        logger.debug("Total defense calculated: {}", defense);
+        return defense;
     }
 
     /**

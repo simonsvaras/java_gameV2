@@ -52,8 +52,8 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         // Starting position
-        worldX = gamePanel.tileSize * 23;
-        worldY = gamePanel.tileSize * 21;
+        worldX = gamePanel.tileSize * 24;
+        worldY = gamePanel.tileSize * 24;
         // speed
         speed = 5;
         // direction for sprites
@@ -175,6 +175,7 @@ public class Player extends Entity {
                     case "right": worldX += speed; break;
                     case "left": worldX -= speed; break;
                 }
+                System.out.println(worldX/gamePanel.tileSize + " " + worldY/gamePanel.tileSize);
             }
 
             if(keyH.enterPressed == true && attackCanceled == false){

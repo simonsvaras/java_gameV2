@@ -14,10 +14,15 @@ import mvc.game.view.TileRenderer;
 import java.awt.*;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 /**
  * The state of the game where the main gameplay occurs.
  */
 public class PlayState implements GameState {
+    private static final Logger logger = LogManager.getLogger(C_GamePanel.class);
 
     private final C_GamePanel gamePanel;
     private final TileRenderer tileRenderer;
@@ -145,6 +150,9 @@ public class PlayState implements GameState {
 
         if (hasMoved) {
             changeMovementFrame(object, previousDirection);
+        }
+        if(object.collisionOn){
+            logger.info("Movement blocked: {} could not move in direction {}", object.getName(), object.direction);
         }
     }
 

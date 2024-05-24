@@ -14,5 +14,7 @@ public class OBJ_Door extends Entity {
         down1 = setup("/objects/door", gamePanel.tileSize, gamePanel.tileSize);
         collision = true;
 
+        pi
+
     }
 }

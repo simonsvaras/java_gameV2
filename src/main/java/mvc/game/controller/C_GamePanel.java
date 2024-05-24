@@ -13,11 +13,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The main game panel where the game is rendered and updated.
  */
 public class C_GamePanel extends JPanel implements Runnable {
+    private static final Logger logger = LogManager.getLogger(C_GamePanel.class);
+
+
+
     // SCREEN SETTINGS
     /**
      * The original size of a tile.
@@ -109,6 +115,7 @@ public class C_GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
         setCurrentState(new TitleState(this));
+        logger.info("Game Panel initialized.");
     }
 
     /**
@@ -116,6 +123,7 @@ public class C_GamePanel extends JPanel implements Runnable {
      */
     public void setupGame(){
         this.entityManager.setNPC();
+        logger.debug("Game setup: NPCs initialized.");
     }
 
     /**
@@ -124,12 +132,14 @@ public class C_GamePanel extends JPanel implements Runnable {
     public void startGame() {
         gameThread = new Thread(this);
         gameThread.start();
+        logger.info("Game thread started.");
     }
 
     @Override
     public void run() {
         double drawInterval = (double) 1000000000 / FPS; // 0.0166 seconds refresh rate
         double nextDrawTime = System.nanoTime() + drawInterval;
+        logger.debug("Game loop started.");
 
         // Making game loop which will be core of our game
         while (gameThread != null) {
@@ -150,6 +160,7 @@ public class C_GamePanel extends JPanel implements Runnable {
                 Thread.sleep((long) remainingTime);
                 nextDrawTime += drawInterval;
             } catch (InterruptedException e) {
+                logger.error("Game loop interrupted", e);
                 e.printStackTrace();
             }
         }
@@ -186,10 +197,10 @@ public class C_GamePanel extends JPanel implements Runnable {
      */
     public void setCurrentState(GameState state) {
         if (this.currentState != null) {
-            // this.currentState.exit(this);
+            logger.trace("Exiting state: {}", currentState.getClass().getSimpleName());
         }
         this.currentState = state;
-        // this.currentState.enter(this);
+        logger.trace("Entering state: {}", state.getClass().getSimpleName());
     }
 
     /**
