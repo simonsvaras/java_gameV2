@@ -1,8 +1,7 @@
 package mvc.game.model.invenory;
 
-import mvc.game.model.M_Entity;
-import mvc.game.model.objects.GameObject;
-import mvc.game.model.objects.Interactable;
+import mvc.game.model.entity.M_Entity;
+
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,7 @@
 package mvc.game.view;
 
 import mvc.game.controller.C_GamePanel;
-import mvc.game.model.M_NPCs;
-import mvc.game.model.M_Player;
+import mvc.game.model.entity.M_NPCs;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

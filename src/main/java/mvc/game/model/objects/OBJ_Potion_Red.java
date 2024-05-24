@@ -1,9 +1,7 @@
 package mvc.game.model.objects;
 
 import mvc.game.controller.C_GamePanel;
-import mvc.game.model.M_Player;
-
-import java.awt.*;
+import mvc.game.model.entity.M_Player;
 
 public class OBJ_Potion_Red extends GameObject{
     public OBJ_Potion_Red(C_GamePanel gamePanel) {

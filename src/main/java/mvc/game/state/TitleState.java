@@ -5,17 +5,29 @@ import mvc.game.view.TitleScreenRenderer;
 
 import java.awt.*;
 
-public class TitleState implements GameState{
+/**
+ * Represents the title screen state of the game.
+ */
+public class TitleState implements GameState {
     private final C_GamePanel gamePanel;
     private final TitleScreenRenderer titleScreenRenderer;
 
+    /**
+     * Constructs a new TitleState with the specified game panel.
+     *
+     * @param gamePanel The game panel.
+     */
     public TitleState(C_GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.titleScreenRenderer = new TitleScreenRenderer(gamePanel);
     }
 
+    /**
+     * Updates the title screen state.
+     */
     @Override
     public void update() {
+        // Handle navigation on the title screen
         if (gamePanel.getKeyHandler().upPressed) {
             titleScreenRenderer.commandNum--;
             if (titleScreenRenderer.commandNum < 0) {
@@ -36,12 +48,19 @@ public class TitleState implements GameState{
         }
     }
 
+    /**
+     * Renders the title screen.
+     *
+     * @param g2 The Graphics2D object used for rendering.
+     */
     @Override
     public void render(Graphics2D g2) {
         titleScreenRenderer.drawTitleScreen(g2);
     }
 
-
+    /**
+     * Performs an action based on the selected menu option.
+     */
     private void performAction() {
         switch (titleScreenRenderer.commandNum) {
             case 0:

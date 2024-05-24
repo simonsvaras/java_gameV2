@@ -1,6 +1,7 @@
-package mvc.game.model;
+package mvc.game.model.entity;
 
 import mvc.game.controller.C_GamePanel;
+import mvc.game.model.Direction;
 import mvc.game.model.objects.OBJ_Shield_Wood;
 import mvc.game.model.objects.OBJ_Sword_Normal;
 
@@ -12,14 +13,12 @@ public class M_NPC_OldMan extends M_NPCs{
         super(gamePanel);
         setDefaultValues();
         loadPlayerSprites();
-        worldX = C_GamePanel.TILE_SIZE * 23;
-        worldY = C_GamePanel.TILE_SIZE * 19;
     }
 
     public void setDefaultValues() {
         // Starting position
         worldX = C_GamePanel.TILE_SIZE * 23;
-        worldY = C_GamePanel.TILE_SIZE * 21;
+        worldY = C_GamePanel.TILE_SIZE * 19;
         // speed
         speed = 1;
         // direction for sprites

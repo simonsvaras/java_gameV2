@@ -5,6 +5,9 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handles keyboard input for the game.
+ */
 public class C_KeyHandler implements KeyListener {
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
@@ -12,20 +15,28 @@ public class C_KeyHandler implements KeyListener {
     private Map<Integer, Runnable> keyReleasedActions = new HashMap<>();
     private C_GamePanel gamePanel;
 
+    /**
+     * Constructs a key handler for the specified game panel.
+     *
+     * @param gamePanel The game panel.
+     */
     public C_KeyHandler(C_GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         initializeKeyMappings();
     }
 
+    /**
+     * Initializes the key mappings for key pressed and key released actions.
+     */
     private void initializeKeyMappings() {
-        // Akce při stisku kláves
+        // Actions on key press
         keyPressedActions.put(KeyEvent.VK_W, () -> upPressed = true);
         keyPressedActions.put(KeyEvent.VK_S, () -> downPressed = true);
         keyPressedActions.put(KeyEvent.VK_A, () -> leftPressed = true);
         keyPressedActions.put(KeyEvent.VK_D, () -> rightPressed = true);
         keyPressedActions.put(KeyEvent.VK_ENTER, () -> enterPressed = true);
 
-        // Akce při uvolnění kláves
+        // Actions on key release
         keyReleasedActions.put(KeyEvent.VK_W, () -> upPressed = false);
         keyReleasedActions.put(KeyEvent.VK_S, () -> downPressed = false);
         keyReleasedActions.put(KeyEvent.VK_A, () -> leftPressed = false);
@@ -35,7 +46,7 @@ public class C_KeyHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        // No action needed for keyTyped event
     }
 
     @Override
@@ -54,6 +65,9 @@ public class C_KeyHandler implements KeyListener {
         }
     }
 
+    /**
+     * Resets all key pressed states to false.
+     */
     public void reset() {
         upPressed = false;
         downPressed = false;

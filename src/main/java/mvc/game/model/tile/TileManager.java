@@ -11,23 +11,31 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+/**
+ * Manages the tiles in the game, including loading and rendering.
+ */
 public class TileManager {
-    C_GamePanel gamePanel;
-    public mvc.game.model.tile.Tile[] tile;
-    public int[][] mapTileNum;
+    private final C_GamePanel gamePanel;
+    private final Tile[] tile;
+    private final int[][] mapTileNum;
 
+    /**
+     * Constructs a new TileManager with the specified game panel.
+     *
+     * @param gamePanel The game panel.
+     */
     public TileManager(C_GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        tile = new mvc.game.model.tile.Tile[10];
-
+        tile = new Tile[10];
         mapTileNum = new int[C_GamePanel.MAX_WORLD_COL][C_GamePanel.MAX_WORLD_ROW];
-
         getTileImage();
         loadMap("/maps/world01.txt");
     }
 
-
-    public void getTileImage(){
+    /**
+     * Loads the images for the tiles.
+     */
+    public void getTileImage() {
         setup(0, "grass", false);
         setup(1, "wall", true);
         setup(2, "water", true);
@@ -36,27 +44,31 @@ public class TileManager {
         setup(5, "sand", false);
     }
 
-    // SET UP THE TILE
-    // Create new Tile, load image, scale image, set collision, add to tile field
     /**
-     * @param index
-     * @param imageName
-     * @param collision
+     * Sets up a tile with the specified parameters.
+     *
+     * @param index The index of the tile.
+     * @param imageName The name of the image file.
+     * @param collision Whether the tile has collision.
      */
-    private void setup(int index, String imageName, boolean collision){
+    private void setup(int index, String imageName, boolean collision) {
         UtilityTool utilityTool = new UtilityTool();
         try {
             tile[index] = new Tile();
-            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/"+ imageName +".png")));
+            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imageName + ".png")));
             tile[index].image = utilityTool.scaleImage(tile[index].image, C_GamePanel.TILE_SIZE, gamePanel.TILE_SIZE);
             tile[index].collision = collision;
-
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private  void loadMap(String filePath) {
+    /**
+     * Loads the map from a file.
+     *
+     * @param filePath The path to the map file.
+     */
+    private void loadMap(String filePath) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             assert is != null;
@@ -65,7 +77,7 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
-            while (col < C_GamePanel.MAX_WORLD_COL && row < C_GamePanel.MAX_WORLD_ROW){
+            while (col < C_GamePanel.MAX_WORLD_COL && row < C_GamePanel.MAX_WORLD_ROW) {
                 String line = br.readLine();
 
                 while (col < C_GamePanel.MAX_WORLD_COL) {
@@ -75,78 +87,68 @@ public class TileManager {
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if(col == C_GamePanel.MAX_WORLD_COL){
+                if (col == C_GamePanel.MAX_WORLD_COL) {
                     col = 0;
                     row++;
                 }
             }
             br.close();
-
-        }catch (Exception e) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-
+    /**
+     * Returns the array of tiles.
+     *
+     * @return The array of tiles.
+     */
     public Tile[] getTiles() {
         return tile;
     }
 
+    /**
+     * Returns the map tile numbers.
+     *
+     * @return The map tile numbers.
+     */
     public int[][] getMapTileNum() {
         return mapTileNum;
     }
 
+    /**
+     * Returns the tile number at the specified coordinates.
+     *
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
+     * @return The tile number.
+     */
     public int getTileAt(int x, int y) {
         return mapTileNum[x][y];
     }
 
+    /**
+     * Returns the tile at the specified tile number.
+     *
+     * @param tileNum The tile number.
+     * @return The tile.
+     */
     public Tile getTile(int tileNum) {
         return tile[tileNum];
     }
 
+    /**
+     * Checks if a tile at the specified coordinates is collidable.
+     *
+     * @param x The x-coordinate.
+     * @param y The y-coordinate.
+     * @return true if the tile is collidable, false otherwise.
+     */
     public boolean isTileCollidable(int x, int y) {
-        int tileI = getTileAt(x,y);
+        if (x < 0 || x >= C_GamePanel.MAX_WORLD_COL || y < 0 || y >= C_GamePanel.MAX_WORLD_ROW) {
+            return true;
+        }
+        int tileI = getTileAt(x, y);
         return getTile(tileI).hasCollision();
     }
-
-
-    /*
-    public void draw(Graphics2D g2){
-
-        int worldCol = 0;
-        int worldRow = 0;
-
-        while (worldCol < C_GamePanel.MAX_WORLD_COL && worldRow < C_GamePanel.MAX_WORLD_ROW) {
-
-            int tileNum = mapTileNum[worldCol][worldRow];
-
-            // worldX and worldY are position on the map
-            int worldX = worldCol * C_GamePanel.TILE_SIZE;
-            int worldY = worldRow * C_GamePanel.TILE_SIZE;
-            // screenX and screenY is where we draw it against players position
-            int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX; // offset the difference when player is in the corner
-            int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
-
-            if (worldX + C_GamePanel.TILE_SIZE > gamePanel.player.worldX - gamePanel.player.screenX &&
-                    worldX - C_GamePanel.TILE_SIZE < gamePanel.player.worldX + gamePanel.player.screenX &&
-                    worldY + C_GamePanel.TILE_SIZE > gamePanel.player.worldY - gamePanel.player.screenY &&
-                    worldY - C_GamePanel.TILE_SIZE < gamePanel.player.worldY + gamePanel.player.screenY) {
-
-                g2.drawImage(tile[tileNum].image, screenX, screenY,null);
-            }
-
-
-            worldCol++;
-
-
-            if(worldCol == C_GamePanel.MAX_WORLD_COL){
-                worldCol = 0;
-                worldRow++;
-
-            }
-        }
-
-     */
-
-    }
-
+}
