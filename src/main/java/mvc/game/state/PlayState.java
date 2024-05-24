@@ -79,7 +79,7 @@ public class PlayState implements GameState {
      *
      * @param object The NPC to move.
      */
-    private void handleNPCMovement(M_NPCs object) {
+    public void handleNPCMovement(M_NPCs object) {
         Direction previousDirection = object.direction;
 
         object.actionLockCounter++;
@@ -176,7 +176,7 @@ public class PlayState implements GameState {
      * @param direction The direction to move the object.
      * @return true if the object moved, false otherwise.
      */
-    private boolean tryMove(LiveObjects object, Direction direction) {
+    public boolean tryMove(LiveObjects object, Direction direction) {
         collisionManager.checkTileCollision(object, direction);
 
         //collisionManager.checkEntity(object, gamePanel.getNpcs());

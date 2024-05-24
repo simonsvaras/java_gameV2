@@ -14,4 +14,8 @@ public class M_NPCs extends LiveObjects {
     public int getMaxActionLockCounter(){
         return maxActionLockCounter;
     }
+
+    public void setMaxActionLockCounter(int i) {
+        maxActionLockCounter = i;
+    }
 }
