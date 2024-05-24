@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends Entity{
+public class Player extends Entity {
 
     KeyHandler keyH;
 
@@ -52,8 +52,8 @@ public class Player extends Entity{
 
     public void setDefaultValues() {
         // Starting position
-        worldX = gamePanel.tileSize * 23;
-        worldY = gamePanel.tileSize * 21;
+        worldX = gamePanel.tileSize * 24;
+        worldY = gamePanel.tileSize * 24;
         // speed
         speed = 5;
         // direction for sprites
@@ -106,7 +106,7 @@ public class Player extends Entity{
     public void getPlayerAttackImage(){
         if(currentWeapon.type == type_sword) {
             attackUp1 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
-            attackUp2 = setup("/player/Attacking/boy_attack_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = setup("/player/Attacking/boy_attack_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
             attackDown1 = setup("/player/Attacking/boy_attack_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
             attackDown2 = setup("/player/Attacking/boy_attack_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
             attackLeft1 = setup("/player/Attacking/boy_attack_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
@@ -115,7 +115,7 @@ public class Player extends Entity{
             attackRight2 = setup("/player/Attacking/boy_attack_right_2", gamePanel.tileSize * 2, gamePanel.tileSize);
         } else if (currentWeapon.type == type_axe) {
             attackUp1 = setup("/player/Attacking/boy_axe_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
-            attackUp2 = setup("/player/Attacking/boy_axe_up_1", gamePanel.tileSize, gamePanel.tileSize * 2);
+            attackUp2 = setup("/player/Attacking/boy_axe_up_2", gamePanel.tileSize, gamePanel.tileSize * 2);
             attackDown1 = setup("/player/Attacking/boy_axe_down_1", gamePanel.tileSize, gamePanel.tileSize * 2);
             attackDown2 = setup("/player/Attacking/boy_axe_down_2", gamePanel.tileSize, gamePanel.tileSize * 2);
             attackLeft1 = setup("/player/Attacking/boy_axe_left_1", gamePanel.tileSize * 2, gamePanel.tileSize);
@@ -175,6 +175,7 @@ public class Player extends Entity{
                     case "right": worldX += speed; break;
                     case "left": worldX -= speed; break;
                 }
+                System.out.println(worldX/gamePanel.tileSize + " " + worldY/gamePanel.tileSize);
             }
 
             if(keyH.enterPressed == true && attackCanceled == false){
