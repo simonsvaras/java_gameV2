@@ -17,18 +17,18 @@ public class LiveObjects extends M_Entity {
     /**
      * The x-coordinate of the object on the screen.
      */
-    public final int screenX;
+    protected final int screenX;
 
     /**
      * The y-coordinate of the object on the screen.
      */
-    public final int screenY;
+    protected final int screenY;
 
     // CHARACTER ATTRIBUTES
     /**
      * The direction the object is facing.
      */
-    public Direction direction;
+    protected Direction direction;
 
     /**
      * The speed of the object.
@@ -88,7 +88,7 @@ public class LiveObjects extends M_Entity {
     /**
      * Indicates if the object is attacking.
      */
-    public boolean isAttacking;
+    protected boolean isAttacking;
 
     /**
      * Indicates if the object is alive.
@@ -103,7 +103,7 @@ public class LiveObjects extends M_Entity {
     /**
      * The dialogues for the object.
      */
-    public String[] dialogues = new String[20];
+    protected String[] dialogues = new String[20];
 
     /**
      * The index of the current dialogue.
@@ -125,6 +125,13 @@ public class LiveObjects extends M_Entity {
         alive = true;
         dying = false;
         dialogueIndex = 0;
+    }
+
+    /**
+     * Loads the player's movement sprites.
+     */
+    @Override
+    public void loadPlayerSprites() {
     }
 
     /**
@@ -196,5 +203,29 @@ public class LiveObjects extends M_Entity {
      */
     public int getSpeed() {
         return speed;
+    }
+
+    public int getScreenX() {
+        return screenX;
+    }
+
+    public int getScreenY() {
+        return screenY;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public boolean getIsAttacking() {
+        return isAttacking;
+    }
+
+    public void setAttacking(boolean attacking) {
+        isAttacking = attacking;
     }
 }

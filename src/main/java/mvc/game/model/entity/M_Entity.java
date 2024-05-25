@@ -1,5 +1,6 @@
 package mvc.game.model.entity;
 
+import mvc.game.model.EntityType;
 import mvc.game.controller.C_GamePanel;
 import mvc.game.utility.UtilityTool;
 
@@ -18,12 +19,12 @@ public abstract class M_Entity {
     /**
      * The solid area for collision detection.
      */
-    public Rectangle solidArea;
+    protected Rectangle solidArea;
 
     /**
      * The attack area for the entity.
      */
-    public Rectangle attackArea;
+    protected Rectangle attackArea;
 
     /**
      * Indicates if the entity is colliding with something.
@@ -34,17 +35,17 @@ public abstract class M_Entity {
     /**
      * The x-coordinate of the entity in the world.
      */
-    public int worldX;
+    protected int worldX;
 
     /**
      * The y-coordinate of the entity in the world.
      */
-    public int worldY;
+    protected int worldY;
 
     /**
      * The current sprite number.
      */
-    public int spriteNum;
+    protected int spriteNum;
 
     /**
      * Indicates if the entity is invincible.
@@ -54,7 +55,7 @@ public abstract class M_Entity {
     /**
      * Indicates if collision is currently active for the entity.
      */
-    public boolean collisionOn;
+    protected boolean collisionOn;
 
     // COUNTER
     /**
@@ -65,12 +66,12 @@ public abstract class M_Entity {
     /**
      * The default x-coordinate of the solid area.
      */
-    public int solidAreaDefaultX;
+    protected int solidAreaDefaultX;
 
     /**
      * The default y-coordinate of the solid area.
      */
-    public int solidAreaDefaultY;
+    protected int solidAreaDefaultY;
 
     /**
      * The name of the entity.
@@ -81,16 +82,7 @@ public abstract class M_Entity {
     /**
      * The type of the entity.
      */
-    public int type;
-
-    public static final int TYPE_PLAYER = 0;
-    public static final int TYPE_NPC = 1;
-    public static final int TYPE_MONSTER = 2;
-    public static final int TYPE_SWORD = 3;
-    public static final int TYPE_AXE = 4;
-    public static final int TYPE_SHIELD = 5;
-    public static final int TYPE_CONSUMABLE = 6;
-    public static final int TYPE_PICKUP_ONLY = 7;
+    protected EntityType type;
 
     /**
      * Constructs a new entity with the specified game panel.
@@ -110,6 +102,7 @@ public abstract class M_Entity {
         invincible = false;
         collisionOn = false;
     }
+    public abstract void loadPlayerSprites();
 
     /**
      * Sets up and loads sprites with the specified width and height.
@@ -139,7 +132,70 @@ public abstract class M_Entity {
         spriteCounter = 0;
     }
 
+
+
+
+    // Getters and setters for encapsulated fields
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public void setWorldX(int worldX) {
+        this.worldX = worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
+
+    public void setWorldY(int worldY) {
+        this.worldY = worldY;
+    }
+
+    public int getSpriteNum() {
+        return spriteNum;
+    }
+
+
+    public void setCollisionOn(boolean collisionOn) {
+        this.collisionOn = collisionOn;
+    }
+    public boolean getCollisionOn(){
+        return collisionOn;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName(){
         return  name;
     }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public Rectangle getAttackArea() {
+        return attackArea;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public void setSolidAreaDefaultX(int solidAreaDefaultX) {
+        this.solidAreaDefaultX = solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
+    }
+
+    public void setSolidAreaDefaultY(int solidAreaDefaultY) {
+        this.solidAreaDefaultY = solidAreaDefaultY;
+    }
+
+
 }

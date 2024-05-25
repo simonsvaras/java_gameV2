@@ -1,5 +1,6 @@
 package mvc.game.model.objects;
 
+import mvc.game.model.EntityType;
 import mvc.game.controller.C_GamePanel;
 import mvc.game.model.entity.M_Player;
 
@@ -9,11 +10,18 @@ public class OBJ_Potion_Red extends GameObject{
 
         name = "Red Potion";
         healAmount = 5;
-        image = setup("/objects/potion_red", C_GamePanel.TILE_SIZE,C_GamePanel.TILE_SIZE);
-
         stackable = true;
+        type = EntityType.CONSUMABLE;
 
         description = "[Red Potion]\nHeals your life by " + healAmount + ".";
+
+        loadPlayerSprites();
+    }
+
+    @Override
+    public void loadPlayerSprites() {
+        image = setup("/objects/potion_red", C_GamePanel.TILE_SIZE,C_GamePanel.TILE_SIZE);
+
     }
 
     @Override

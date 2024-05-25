@@ -1,5 +1,6 @@
 package mvc.game.model.objects;
 
+import mvc.game.model.EntityType;
 import mvc.game.controller.C_GamePanel;
 import mvc.game.model.entity.M_Player;
 
@@ -7,8 +8,7 @@ public class OBJ_Axe extends GameObject{
     public OBJ_Axe(C_GamePanel gamePanel) {
         super(gamePanel);
         name = "Axe";
-        type = TYPE_AXE;
-        image = setup("/objects/axe", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE);
+        type = EntityType.AXE;
 
         attackValue = 2;
 
@@ -16,6 +16,12 @@ public class OBJ_Axe extends GameObject{
         attackArea.height = 30;
 
         description = "[" + name + "]\nCan cut a trees";
+        loadPlayerSprites();
+    }
+
+    @Override
+    public void loadPlayerSprites() {
+        image = setup("/objects/axe", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE);
     }
 
     @Override
@@ -27,7 +33,6 @@ public class OBJ_Axe extends GameObject{
     public void pickUp(M_Player player) {
         player.getInventory().addItem(this);
     }
-
 
 
 

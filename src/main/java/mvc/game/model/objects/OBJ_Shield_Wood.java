@@ -1,5 +1,6 @@
 package mvc.game.model.objects;
 
+import mvc.game.model.EntityType;
 import mvc.game.controller.C_GamePanel;
 import mvc.game.model.entity.M_Player;
 
@@ -8,14 +9,18 @@ public class OBJ_Shield_Wood extends GameObject{
         super(gamePanel);
 
         name = "Wood Shield";
-        type = TYPE_SHIELD;
-        image = setup("/objects/shield_wood", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE);
+        type = EntityType.SHIELD;
         defenseValue = 1;
 
         description = "[" + name + "]\nIs made by wood";
 
     }
 
+    @Override
+    public void loadPlayerSprites() {
+        image = setup("/objects/shield_wood", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE);
+
+    }
 
 
     @Override

@@ -39,9 +39,9 @@ public class C_EntityManager {
      */
     private void addOldManNPC(int worldX, int worldY) {
         M_NPC_OldMan oldMan = new M_NPC_OldMan(gamePanel);
-        oldMan.worldX = worldX;
-        oldMan.worldY = worldY;
-        gamePanel.NPCs.add(oldMan);
+        oldMan.setWorldX(worldX);
+        oldMan.setWorldY(worldY);
+        gamePanel.addNPC(oldMan);
     }
 
     /**
@@ -52,8 +52,8 @@ public class C_EntityManager {
      */
     private void addGreenSlimeNPC(int worldX, int worldY) {
         M_GreenSlime greenSlime = new M_GreenSlime(gamePanel);
-        greenSlime.worldX = worldX;
-        greenSlime.worldY = worldY;
-        gamePanel.NPCs.add(greenSlime);
+        greenSlime.setWorldX(worldX);
+        greenSlime.setWorldY(worldY);
+        gamePanel.addNPC(greenSlime);
     }
 }

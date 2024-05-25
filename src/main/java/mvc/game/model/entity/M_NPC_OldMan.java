@@ -26,6 +26,7 @@ public class M_NPC_OldMan extends M_NPCs{
     }
 
 
+    @Override
     public void loadPlayerSprites(){
         sprite.loadSprite("up", setup("/NPC/oldman_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/NPC/oldman_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
         sprite.loadSprite("down", setup("/NPC/oldman_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/NPC/oldman_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));

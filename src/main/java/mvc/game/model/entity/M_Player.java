@@ -1,5 +1,6 @@
 package mvc.game.model.entity;
 
+import mvc.game.model.EntityType;
 import mvc.game.controller.C_GamePanel;
 import mvc.game.model.Direction;
 import mvc.game.model.invenory.Inventory;
@@ -30,17 +31,17 @@ public class M_Player extends LiveObjects {
     /**
      * The current weapon of the player.
      */
-    protected GameObject currentWeapon;
+    private GameObject currentWeapon;
 
     /**
      * The current shield of the player.
      */
-    protected GameObject currentShield;
+    private GameObject currentShield;
 
     /**
      * The default collision area size.
      */
-    public static final int DEFAULT_AREA = 32;
+    private static final int DEFAULT_AREA = 32;
 
     /**
      * Constructs a new player with the specified game panel.
@@ -82,8 +83,8 @@ public class M_Player extends LiveObjects {
         coin = 0;
         currentWeapon = new OBJ_Sword_Normal(gamePanel);
         currentShield = new OBJ_Shield_Wood(gamePanel);
-        attack = getAttack();
-        defense = getDefense();
+        attack = calculateAttack();
+        defense = calculateDefense();
 
         // SET COLLISION AREA
         solidArea = new Rectangle();
@@ -115,10 +116,10 @@ public class M_Player extends LiveObjects {
      *
      * @return The total attack value.
      */
-    public int getAttack() {
+    public int calculateAttack() {
         attackArea = currentWeapon.attackArea;
         logger.debug("Total attack calculated: {}", attack);
-        return attack = strength * currentWeapon.attackValue;
+        return attack = strength * currentWeapon.getAttackValue();
     }
 
     /**
@@ -126,7 +127,7 @@ public class M_Player extends LiveObjects {
      *
      * @return The total defense value.
      */
-    public int getDefense() {
+    public int calculateDefense() {
         defense = dexterity * currentShield.defenseValue;
         logger.debug("Total defense calculated: {}", defense);
         return defense;
@@ -135,6 +136,7 @@ public class M_Player extends LiveObjects {
     /**
      * Loads the player's movement sprites.
      */
+    @Override
     public void loadPlayerSprites() {
         sprite.loadSprite("up", setup("/player/boy_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/boy_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
         sprite.loadSprite("down", setup("/player/boy_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/boy_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
@@ -146,12 +148,12 @@ public class M_Player extends LiveObjects {
      * Loads the player's attack sprites based on the current weapon.
      */
     public void loadPlayersAttackSprites() {
-        if (currentWeapon.type == TYPE_SWORD) {
+        if (currentWeapon.type == EntityType.SWORD) {
             sprite.loadSprite("attack_up", setup("/player/Attacking/boy_attack_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
             sprite.loadSprite("attack_down", setup("/player/Attacking/boy_attack_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
             sprite.loadSprite("attack_left", setup("/player/Attacking/boy_attack_left_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_left_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
             sprite.loadSprite("attack_right", setup("/player/Attacking/boy_attack_right_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_attack_right_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
-        } else if (currentWeapon.type == TYPE_AXE) {
+        } else if (currentWeapon.type == EntityType.AXE) {
             sprite.loadSprite("attack_up", setup("/player/Attacking/boy_axe_up_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_up_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
             sprite.loadSprite("attack_down", setup("/player/Attacking/boy_axe_down_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_down_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));
             sprite.loadSprite("attack_left", setup("/player/Attacking/boy_axe_left_1", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE), setup("/player/Attacking/boy_axe_left_2", C_GamePanel.TILE_SIZE, C_GamePanel.TILE_SIZE));

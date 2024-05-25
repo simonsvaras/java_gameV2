@@ -54,7 +54,7 @@ class PlayStateTest {
         playState.update();
 
         // Assert the player direction is updated to UP
-        assertEquals(Direction.UP, player.direction);
+        assertEquals(Direction.UP, player.getDirection());
         // Verify movement handling and collision checks are performed
         verify(collisionManager, times(1)).checkTileCollision(any(), any());
     }
@@ -62,18 +62,18 @@ class PlayStateTest {
     @Test
     void testRandomDirectionChange() {
         M_NPCs npc = mock(M_NPCs.class);
-        npc.actionLockCounter = 1000; // Set higher than max to trigger change
+        npc.setActionLockCounter(1000); // Set higher than max to trigger change
         npc.setMaxActionLockCounter(10); // Assume this method exists to set max counter
         playState.handleNPCMovement(npc);
 
         // Assert that direction changes
-        assertNotNull(npc.direction);
+        assertNotNull(npc.getDirection());
     }
 
     @Test
     void testMovementBlockedByCollision() {
         M_NPCs npc = new M_NPCs(gamePanel);
-        npc.collisionOn = true; // Simulate a collision condition
+        npc.setCollisionOn(true); // Simulate a collision condition
         assertFalse(playState.tryMove(npc, Direction.UP));
         // Verify collision management logic is being called
         verify(collisionManager, times(1)).checkTileCollision(npc, Direction.UP);

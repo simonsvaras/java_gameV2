@@ -35,7 +35,7 @@ public abstract class GameObject extends M_Entity implements Interactable {
     /**
      * The attack value of the game object.
      */
-    public int attackValue;
+    protected int attackValue;
 
     /**
      * The value of the game object.
@@ -81,4 +81,9 @@ public abstract class GameObject extends M_Entity implements Interactable {
      */
     @Override
     public abstract void pickUp(M_Player player);
+
+    public int getAttackValue() {
+        return attackValue;
+    }
+
 }

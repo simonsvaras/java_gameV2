@@ -37,10 +37,10 @@ public class TileRenderer {
         int maxRows = C_GamePanel.MAX_WORLD_ROW;
         int tileSize = C_GamePanel.TILE_SIZE;
 
-        int playerWorldX = gamePanel.player.worldX;
-        int playerWorldY = gamePanel.player.worldY;
-        int playerScreenX = gamePanel.getPlayer().screenX;
-        int playerScreenY = gamePanel.getPlayer().screenY;
+        int playerWorldX = gamePanel.getPlayer().getWorldX();
+        int playerWorldY = gamePanel.getPlayer().getWorldY();
+        int playerScreenX = gamePanel.getPlayer().getScreenX();
+        int playerScreenY = gamePanel.getPlayer().getScreenY();
 
         // Loop through all the rows and columns of the world
         for (int row = 0; row < maxRows; row++) {

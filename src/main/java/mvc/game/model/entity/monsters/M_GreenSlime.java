@@ -2,6 +2,7 @@ package mvc.game.model.entity.monsters;
 
 import mvc.game.controller.C_GamePanel;
 import mvc.game.model.Direction;
+import mvc.game.model.EntityType;
 import mvc.game.model.entity.M_NPCs;
 
 public class M_GreenSlime extends M_NPCs {
@@ -21,7 +22,7 @@ public class M_GreenSlime extends M_NPCs {
         // direction for sprites
         direction = Direction.DOWN;
 
-        type = TYPE_MONSTER;
+        type = EntityType.MONSTER;
         name = "Green Slime";
         speed = 1;
         maxLife = 4;

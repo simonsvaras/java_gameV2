@@ -52,53 +52,22 @@ public class C_CollisionManager {
         }
 
         // Calculate the new position of each corner of the entity's bounding box
-        int newLeftX = (entity.worldX + dx + entity.solidArea.x) / C_GamePanel.TILE_SIZE;
-        int newRightX = (entity.worldX + dx + entity.solidArea.x + entity.solidArea.width) / C_GamePanel.TILE_SIZE;
-        int newTopY = (entity.worldY + dy + entity.solidArea.y) / C_GamePanel.TILE_SIZE;
-        int newBottomY = (entity.worldY + dy + entity.solidArea.y + entity.solidArea.height) / C_GamePanel.TILE_SIZE;
+        int newLeftX = (entity.getWorldX() + dx + entity.getSolidArea().x) / C_GamePanel.TILE_SIZE;
+        int newRightX = (entity.getWorldX() + dx + entity.getSolidArea().x + entity.getSolidArea().width) / C_GamePanel.TILE_SIZE;
+        int newTopY = (entity.getWorldY() + dy + entity.getSolidArea().y) / C_GamePanel.TILE_SIZE;
+        int newBottomY = (entity.getWorldY() + dy + entity.getSolidArea().y + entity.getSolidArea().height) / C_GamePanel.TILE_SIZE;
 
         // Check each corner for collision with impassable tiles
-        return entity.collisionOn =
+        entity.setCollisionOn(
                 gamePanel.getTileManager().isTileCollidable(newLeftX, newTopY) ||
                 gamePanel.getTileManager().isTileCollidable(newRightX, newTopY) ||
                 gamePanel.getTileManager().isTileCollidable(newLeftX, newBottomY) ||
-                gamePanel.getTileManager().isTileCollidable(newRightX, newBottomY);
+                gamePanel.getTileManager().isTileCollidable(newRightX, newBottomY));
+
+        return entity.getCollisionOn();
     }
 
-    /*
-    public boolean checkEntity(LiveObjects entity, ArrayList<M_NPCs> entities) {
-        for (LiveObjects target : entities) {
-            if (target != null && target != entity) {
-                // Get entity's solid area position
-                entity.solidArea.x = entity.worldX + entity.solidArea.x;
-                entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
-                // Get the target's solid area position
-                target.solidArea.x = target.worldX + target.solidArea.x;
-                target.solidArea.y = target.worldY + target.solidArea.y;
-
-                // Adjust entity's solid area position based on movement
-                moveSolidArea(entity);
-
-
-
-                // Check if these two rectangles are colliding
-                if (entity.solidArea.intersects(target.solidArea)) {
-                    entity.collisionOn = true;
-                    return true;
-                }
-
-                // Reset solid area positions
-                entity.solidArea.x = entity.solidAreaDefaultX;
-                entity.solidArea.y = entity.solidAreaDefaultY;
-                target.solidArea.x = target.solidAreaDefaultX;
-                target.solidArea.y = target.solidAreaDefaultY;
-            }
-        }
-        return false;
-         }
-
-     */
 
     /**
      * Checks for collisions between the given entity and a list of other entities.
@@ -106,6 +75,8 @@ public class C_CollisionManager {
      * @param entity   The entity to check for collisions.
      * @param entities The list of entities to check against.
      * @return true if a collision is detected, false otherwise.
+     *
+     * (NON-FUNCTIONAL YET)
      */
     public boolean checkEntity(LiveObjects entity, ArrayList<M_NPCs> entities) {
         for (LiveObjects target : entities) {
@@ -114,16 +85,16 @@ public class C_CollisionManager {
                 moveSolidArea(entity);
 
                 // Create a copy of the solid area of the current entity and move it to its current position
-                Rectangle thisArea = new Rectangle(entity.solidArea);
-                thisArea.setLocation(entity.worldX + entity.solidArea.x, entity.worldY + entity.solidArea.y);
+                Rectangle thisArea = new Rectangle(entity.getSolidArea());
+                thisArea.setLocation(entity.getWorldX() + entity.getSolidArea().x, entity.getWorldY() + entity.getSolidArea().y);
 
                 // Create a copy of the solid area of the other entity and move it to its current position
-                Rectangle otherArea = new Rectangle(target.solidArea);
-                otherArea.setLocation(target.worldX + target.solidArea.x, target.worldY + target.solidArea.y);
+                Rectangle otherArea = new Rectangle(target.getSolidArea());
+                otherArea.setLocation(target.getWorldX() + target.getSolidArea().x, target.getWorldY() + target.getSolidArea().y);
 
                 // Check for collision between the two areas
                 if (thisArea.intersects(otherArea)) {
-                    entity.collisionOn = true;
+                    entity.setCollisionOn(true);
                     return true;  // If a collision is detected, the method returns true
                 }
 
@@ -142,18 +113,18 @@ public class C_CollisionManager {
      * @param entity The entity whose solid area is to be moved.
      */
     private void moveSolidArea(LiveObjects entity) {
-        switch (entity.direction) {
+        switch (entity.getDirection()) {
             case UP:
-                entity.solidArea.y -= entity.getSpeed();
+                entity.getSolidArea().y -= entity.getSpeed();
                 break;
             case DOWN:
-                entity.solidArea.y += entity.getSpeed();
+                entity.getSolidArea().y += entity.getSpeed();
                 break;
             case LEFT:
-                entity.solidArea.x -= entity.getSpeed();
+                entity.getSolidArea().x -= entity.getSpeed();
                 break;
             case RIGHT:
-                entity.solidArea.x += entity.getSpeed();
+                entity.getSolidArea().x += entity.getSpeed();
                 break;
         }
     }
@@ -164,8 +135,9 @@ public class C_CollisionManager {
      * @param entity The entity whose solid area position is to be reset.
      */
     private void resetSolidAreaPosition(LiveObjects entity) {
-        entity.solidArea.x = entity.solidAreaDefaultX;
-        entity.solidArea.y = entity.solidAreaDefaultY;
+        Rectangle solidArea = entity.getSolidArea();
+        solidArea.x = entity.getSolidAreaDefaultX();
+        solidArea.y = entity.getSolidAreaDefaultY();
     }
 }
 

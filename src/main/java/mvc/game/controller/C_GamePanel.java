@@ -78,12 +78,12 @@ public class C_GamePanel extends JPanel implements Runnable {
     /**
      * The player entity.
      */
-    public M_Entity player = new M_Player(this);
+    private M_Entity player = new M_Player(this);
 
     /**
      * The list of NPCs in the game.
      */
-    public List<M_NPCs> NPCs = new ArrayList<>();
+    private List<M_NPCs> NPCs = new ArrayList<>();
 
     // MANAGERS
     private final C_EntityManager entityManager = new C_EntityManager(this);
@@ -237,5 +237,8 @@ public class C_GamePanel extends JPanel implements Runnable {
      */
     public ArrayList<M_NPCs> getNpcs(){
         return (ArrayList<M_NPCs>) NPCs;
+    }
+    public void addNPC(M_NPCs npc){
+        NPCs.add(npc);
     }
 }

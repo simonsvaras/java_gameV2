@@ -15,10 +15,10 @@ public class NPCRenderer {
 
     public void render(Graphics2D g2){
         for (M_NPCs NPC : gamePanel.getNpcs()) {
-            int tempScreenX = NPC.worldX - gamePanel.getPlayer().worldX + gamePanel.getPlayer().screenX;
-            int tempScreenY = NPC.worldY - gamePanel.getPlayer().worldY + gamePanel.getPlayer().screenY;
+            int tempScreenX = NPC.getWorldX() - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX();
+            int tempScreenY = NPC.getWorldY() - gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY();
 
-            BufferedImage image = NPC.getCurrentFrame(NPC.spriteNum);
+            BufferedImage image = NPC.getCurrentFrame(NPC.getSpriteNum());
             g2.drawImage(image, tempScreenX, tempScreenY, null);
         }
     }

@@ -30,12 +30,12 @@ public class PlayerRenderer {
      * @param g2 The Graphics2D object used for rendering.
      */
     public void render(Graphics2D g2) {
-        int tempScreenX = player.screenX;
-        int tempScreenY = player.screenY;
+        int tempScreenX = player.getScreenX();
+        int tempScreenY = player.getScreenY();
 
         // Adjust position if the player is attacking
-        if (player.isAttacking) {
-            switch (player.direction) {
+        if (player.getIsAttacking()) {
+            switch (player.getDirection()) {
                 case UP:
                     tempScreenY -= C_GamePanel.TILE_SIZE;
                     break;
@@ -49,7 +49,7 @@ public class PlayerRenderer {
         }
 
         // Get the current frame of the player's sprite
-        BufferedImage image = player.getCurrentFrame(player.spriteNum);
+        BufferedImage image = player.getCurrentFrame(player.getSpriteNum());
         // Draw the player image at the calculated position
         g2.drawImage(image, tempScreenX, tempScreenY, null);
     }

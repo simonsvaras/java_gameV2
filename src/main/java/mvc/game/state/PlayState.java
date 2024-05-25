@@ -57,7 +57,7 @@ public class PlayState implements GameState {
 
         // Update NPC movements
         for (M_NPCs NPC : gamePanel.getNpcs()) {
-            NPC.collisionOn = false;
+            NPC.setCollisionOn(false);
             handleNPCMovement(NPC);
         }
     }
@@ -80,15 +80,15 @@ public class PlayState implements GameState {
      * @param object The NPC to move.
      */
     public void handleNPCMovement(M_NPCs object) {
-        Direction previousDirection = object.direction;
+        Direction previousDirection = object.getDirection();
 
-        object.actionLockCounter++;
-        if (object.actionLockCounter > object.getMaxActionLockCounter()) {
+        object.setActionLockCounter(object.getActionLockCounter() + 1);
+        if (object.getActionLockCounter() > object.getMaxActionLockCounter()) {
             changeDirectionRandomly(object);
-            object.actionLockCounter = 0; // Reset counter after changing direction
+            object.setActionLockCounter(0); // Reset counter after changing direction
         }
 
-        tryMove(object, object.direction);
+        tryMove(object, object.getDirection());
 
         changeMovementFrame(object, previousDirection);
     }
@@ -103,16 +103,16 @@ public class PlayState implements GameState {
 
         switch (directionChoice) {
             case 0:
-                object.direction = Direction.UP;
+                object.setDirection(Direction.UP);
                 break;
             case 1:
-                object.direction = Direction.DOWN;
+                object.setDirection(Direction.DOWN);
                 break;
             case 2:
-                object.direction = Direction.LEFT;
+                object.setDirection(Direction.LEFT);
                 break;
             case 3:
-                object.direction = Direction.RIGHT;
+                object.setDirection(Direction.RIGHT);
                 break;
         }
     }
@@ -123,36 +123,36 @@ public class PlayState implements GameState {
      * @param object The player or NPC to move.
      */
     private void handleMovement(LiveObjects object) {
-        object.collisionOn = false;
+        object.setCollisionOn(false);
 
         boolean hasMoved = false;
-        Direction previousDirection = object.direction;
+        Direction previousDirection = object.getDirection();
 
         if (keyHandler.upPressed) {
-            object.direction = Direction.UP;
-            hasMoved = tryMove(object, object.direction);
+            object.setDirection(Direction.UP);
+            hasMoved = tryMove(object, object.getDirection());
         }
 
         if (keyHandler.downPressed) {
-            object.direction = Direction.DOWN;
-            hasMoved = tryMove(object, object.direction);
+            object.setDirection(Direction.DOWN);
+            hasMoved = tryMove(object, object.getDirection());
         }
 
         if (keyHandler.leftPressed) {
-            object.direction = Direction.LEFT;
-            hasMoved = tryMove(object, object.direction);
+            object.setDirection(Direction.LEFT);
+            hasMoved = tryMove(object, object.getDirection());
         }
 
         if (keyHandler.rightPressed) {
-            object.direction = Direction.RIGHT;
-            hasMoved = tryMove(object, object.direction);
+            object.setDirection(Direction.RIGHT);
+            hasMoved = tryMove(object, object.getDirection());
         }
 
         if (hasMoved) {
             changeMovementFrame(object, previousDirection);
         }
-        if(object.collisionOn){
-            logger.info("Movement blocked: {} could not move in direction {}", object.getName(), object.direction);
+        if(object.getCollisionOn()){
+            logger.info("Movement blocked: {} could not move in direction {}", object.getName(), object.getDirection());
         }
     }
 
@@ -163,7 +163,7 @@ public class PlayState implements GameState {
      * @param previousDirection The previous direction of the object.
      */
     private void changeMovementFrame(LiveObjects object, Direction previousDirection) {
-        if (object.direction != previousDirection) {
+        if (object.getDirection() != previousDirection) {
             object.resetAnimation(); // Reset animation if direction changes
         }
         object.updateMovementFrame();
@@ -181,7 +181,7 @@ public class PlayState implements GameState {
 
         //collisionManager.checkEntity(object, gamePanel.getNpcs());
 
-        if (!object.collisionOn) {
+        if (!object.getCollisionOn()) {
             switch (direction) {
                 case UP:
                     object.moveUp();
