@@ -1,7 +1,6 @@
 package mvc.game;
 
-import mvc.game.controller.C_GamePanel;
-import org.game.main.GamePanel;
+import mvc.game.controller.GamePanel;
 
 import javax.swing.*;
 
@@ -12,7 +11,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("2D Adventures");
 
-        C_GamePanel gamePanel = new C_GamePanel();
+        GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
 
         window.pack();

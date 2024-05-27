@@ -1,6 +1,6 @@
 package mvc.game.state;
 
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 import mvc.game.view.TitleScreenRenderer;
 
 import java.awt.*;
@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class TitleState implements GameState {
     private static final Logger logger = LogManager.getLogger(TitleState.class);
 
-    private final C_GamePanel gamePanel;
+    private final GamePanel gamePanel;
     private final TitleScreenRenderer titleScreenRenderer;
 
     /**
@@ -21,7 +21,7 @@ public class TitleState implements GameState {
      *
      * @param gamePanel The game panel.
      */
-    public TitleState(C_GamePanel gamePanel) {
+    public TitleState(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.titleScreenRenderer = new TitleScreenRenderer(gamePanel);
         logger.info("TitleState initialized.");
@@ -33,7 +33,7 @@ public class TitleState implements GameState {
     @Override
     public void update() {
         // Handle navigation on the title screen
-        if (gamePanel.getKeyHandler().upPressed) {
+        if (gamePanel.getKeyHandler().isUpPressed()) {
             titleScreenRenderer.commandNum--;
             if (titleScreenRenderer.commandNum < 0) {
                 titleScreenRenderer.commandNum = 2;
@@ -41,7 +41,7 @@ public class TitleState implements GameState {
             logger.debug("Menu selection changed: commandNum={}", titleScreenRenderer.commandNum);
             gamePanel.getKeyHandler().reset();
         }
-        if (gamePanel.getKeyHandler().downPressed) {
+        if (gamePanel.getKeyHandler().isDownPressed()) {
             titleScreenRenderer.commandNum++;
             if (titleScreenRenderer.commandNum > 2) {
                 titleScreenRenderer.commandNum = 0;
@@ -49,7 +49,7 @@ public class TitleState implements GameState {
             logger.debug("Menu selection changed: commandNum={}", titleScreenRenderer.commandNum);
             gamePanel.getKeyHandler().reset();
         }
-        if (gamePanel.getKeyHandler().enterPressed) {
+        if (gamePanel.getKeyHandler().isEnterPressed()) {
             logger.info("Enter pressed, performing action for commandNum={}", titleScreenRenderer.commandNum);
             performAction();
             gamePanel.getKeyHandler().reset();

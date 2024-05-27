@@ -1,6 +1,6 @@
 package mvc.game.view;
 
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 import mvc.game.state.GameState;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
  * Manages the rendering of the game.
  */
 public class GameView {
-    private final C_GamePanel gamePanel;
+    private final GamePanel gamePanel;
     private final TileRenderer tileRenderer;
 
     /**
@@ -18,7 +18,7 @@ public class GameView {
      * @param gamePanel The game panel.
      * @param tileRenderer The tile renderer.
      */
-    public GameView(C_GamePanel gamePanel, TileRenderer tileRenderer) {
+    public GameView(GamePanel gamePanel, TileRenderer tileRenderer) {
         this.gamePanel = gamePanel;
         this.tileRenderer = tileRenderer;
     }

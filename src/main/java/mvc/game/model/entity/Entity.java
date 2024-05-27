@@ -1,7 +1,8 @@
 package mvc.game.model.entity;
 
+import mvc.game.model.Coordinate;
 import mvc.game.model.EntityType;
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 import mvc.game.utility.UtilityTool;
 
 import javax.imageio.ImageIO;
@@ -13,8 +14,13 @@ import java.util.Objects;
 /**
  * Abstract class representing an entity in the game.
  */
-public abstract class M_Entity {
-    protected C_GamePanel gamePanel;
+public abstract class Entity {
+    protected GamePanel gamePanel;
+
+    /**
+     * The position of the entity in the world.
+     */
+    protected Coordinate position;
 
     /**
      * The solid area for collision detection.
@@ -26,22 +32,13 @@ public abstract class M_Entity {
      */
     protected Rectangle attackArea;
 
+
     /**
      * Indicates if the entity is colliding with something.
      */
     protected boolean collision;
 
     // STATE
-    /**
-     * The x-coordinate of the entity in the world.
-     */
-    protected int worldX;
-
-    /**
-     * The y-coordinate of the entity in the world.
-     */
-    protected int worldY;
-
     /**
      * The current sprite number.
      */
@@ -88,20 +85,28 @@ public abstract class M_Entity {
      * Constructs a new entity with the specified game panel.
      *
      * @param gamePanel The game panel.
+     * @param worldX The x-coordinate of the entity in the world.
+     * @param worldY The y-coordinate of the entity in the world.
      */
-    public M_Entity(C_GamePanel gamePanel) {
+    public Entity(GamePanel gamePanel, int worldX, int worldY) {
         this.gamePanel = gamePanel;
-        solidArea = new Rectangle(0, 0, 48, 48);
-
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-
-        attackArea = new Rectangle(0, 0, 0, 0);
-        collision = false;
-        spriteNum = 0;
-        invincible = false;
-        collisionOn = false;
+        this.position = new Coordinate(worldX, worldY);
+        this.solidArea = new Rectangle(0, 0, 48, 48);
+        this.solidAreaDefaultX = solidArea.x;
+        this.solidAreaDefaultY = solidArea.y;
+        this.attackArea = new Rectangle(0, 0, 0, 0);
+        this.collision = false;
+        this.spriteNum = 0;
+        this.invincible = false;
+        this.collisionOn = false;
     }
+
+
+
+
+    /**
+     * Abstract method to load player sprites.
+     */
     public abstract void loadPlayerSprites();
 
     /**
@@ -132,53 +137,74 @@ public abstract class M_Entity {
         spriteCounter = 0;
     }
 
-
-
-
     // Getters and setters for encapsulated fields
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
+    public Coordinate getPosition() {
+        return position;
+    }
+
+    public void setPosition(Coordinate position) {
+        this.position = position;
+    }
+
     public int getWorldX() {
-        return worldX;
+        return position.getX();
     }
 
     public void setWorldX(int worldX) {
-        this.worldX = worldX;
+        position.setX(worldX);
     }
 
     public int getWorldY() {
-        return worldY;
+        return position.getY();
     }
 
     public void setWorldY(int worldY) {
-        this.worldY = worldY;
+        position.setY(worldY);
     }
 
     public int getSpriteNum() {
         return spriteNum;
     }
 
+    public void setSpriteNum(int spriteNum) {
+        this.spriteNum = spriteNum;
+    }
+
+    public boolean getCollisionOn() {
+        return collisionOn;
+    }
 
     public void setCollisionOn(boolean collisionOn) {
         this.collisionOn = collisionOn;
     }
-    public boolean getCollisionOn(){
-        return collisionOn;
-    }
 
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getName(){
-        return  name;
     }
 
     public Rectangle getSolidArea() {
         return solidArea;
     }
 
+    public void setSolidArea(Rectangle solidArea) {
+        this.solidArea = solidArea;
+    }
+
     public Rectangle getAttackArea() {
         return attackArea;
+    }
+
+    public void setAttackArea(Rectangle attackArea) {
+        this.attackArea = attackArea;
     }
 
     public int getSolidAreaDefaultX() {
@@ -197,5 +223,20 @@ public abstract class M_Entity {
         this.solidAreaDefaultY = solidAreaDefaultY;
     }
 
+    public boolean isCollision() {
+        return collision;
+    }
 
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
+
+
+    public EntityType getType() {
+        return type;
+    }
+
+    public void setType(EntityType type) {
+        this.type = type;
+    }
 }

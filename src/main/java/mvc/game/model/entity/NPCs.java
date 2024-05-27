@@ -1,13 +1,21 @@
 package mvc.game.model.entity;
 
 import mvc.game.model.EntityType;
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 
-public class M_NPCs extends LiveObjects {
+import java.util.ArrayList;
+import java.util.List;
+
+public class NPCs extends LiveObjects {
     private int actionLockCounter;
     private int maxActionLockCounter;
 
-    public M_NPCs(C_GamePanel gamePanel) {
+    /**
+     * The dialogues for the object.
+     */
+    protected List<String> dialogues = new ArrayList<>();
+
+    public NPCs(GamePanel gamePanel) {
         super(gamePanel);
         maxActionLockCounter = 120;
         type = EntityType.NPC;

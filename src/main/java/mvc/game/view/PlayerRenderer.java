@@ -1,7 +1,7 @@
 package mvc.game.view;
 
-import mvc.game.controller.C_GamePanel;
-import mvc.game.model.entity.M_Player;
+import mvc.game.controller.GamePanel;
+import mvc.game.model.entity.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
  * Handles the rendering of the player.
  */
 public class PlayerRenderer {
-    private C_GamePanel gamePanel;
-    private M_Player player;
+    private GamePanel gamePanel;
+    private Player player;
 
     /**
      * Constructs a new PlayerRenderer with the specified game panel and player.
@@ -19,7 +19,7 @@ public class PlayerRenderer {
      * @param gamePanel The game panel.
      * @param player The player to be rendered.
      */
-    public PlayerRenderer(C_GamePanel gamePanel, M_Player player) {
+    public PlayerRenderer(GamePanel gamePanel, Player player) {
         this.gamePanel = gamePanel;
         this.player = player;
     }
@@ -37,10 +37,10 @@ public class PlayerRenderer {
         if (player.getIsAttacking()) {
             switch (player.getDirection()) {
                 case UP:
-                    tempScreenY -= C_GamePanel.TILE_SIZE;
+                    tempScreenY -= GamePanel.TILE_SIZE;
                     break;
                 case LEFT:
-                    tempScreenX -= C_GamePanel.TILE_SIZE;
+                    tempScreenX -= GamePanel.TILE_SIZE;
                     break;
                 // No adjustment needed for DOWN and RIGHT directions
                 default:

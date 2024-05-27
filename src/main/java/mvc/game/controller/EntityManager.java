@@ -1,20 +1,20 @@
 package mvc.game.controller;
 
-import mvc.game.model.entity.M_NPC_OldMan;
-import mvc.game.model.entity.monsters.M_GreenSlime;
+import mvc.game.model.entity.NPC_OldMan;
+import mvc.game.model.entity.monsters.GreenSlime;
 
 /**
  * Manages the entities in the game.
  */
-public class C_EntityManager {
-    private C_GamePanel gamePanel;
+public class EntityManager {
+    private GamePanel gamePanel;
 
     /**
      * Constructs an entity manager with the specified game panel.
      *
      * @param gamePanel The game panel.
      */
-    public C_EntityManager(C_GamePanel gamePanel) {
+    public EntityManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
@@ -23,12 +23,12 @@ public class C_EntityManager {
      */
     public void setNPC() {
         // ADD NPC OLD MAN
-        addOldManNPC(C_GamePanel.TILE_SIZE * 18, C_GamePanel.TILE_SIZE * 10);
-        addOldManNPC(C_GamePanel.TILE_SIZE * 20, C_GamePanel.TILE_SIZE * 12);
-        addOldManNPC(C_GamePanel.TILE_SIZE * 22, C_GamePanel.TILE_SIZE * 14);
+        addOldManNPC(GamePanel.TILE_SIZE * 18, GamePanel.TILE_SIZE * 10);
+        addOldManNPC(GamePanel.TILE_SIZE * 20, GamePanel.TILE_SIZE * 12);
+        addOldManNPC(GamePanel.TILE_SIZE * 22, GamePanel.TILE_SIZE * 14);
 
         // ADD NPC SLIME MONSTER
-        addGreenSlimeNPC(C_GamePanel.TILE_SIZE * 24, C_GamePanel.TILE_SIZE * 16);
+        addGreenSlimeNPC(GamePanel.TILE_SIZE * 24, GamePanel.TILE_SIZE * 16);
     }
 
     /**
@@ -38,7 +38,7 @@ public class C_EntityManager {
      * @param worldY The y-coordinate in the world.
      */
     private void addOldManNPC(int worldX, int worldY) {
-        M_NPC_OldMan oldMan = new M_NPC_OldMan(gamePanel);
+        NPC_OldMan oldMan = new NPC_OldMan(gamePanel);
         oldMan.setWorldX(worldX);
         oldMan.setWorldY(worldY);
         gamePanel.addNPC(oldMan);
@@ -51,7 +51,7 @@ public class C_EntityManager {
      * @param worldY The y-coordinate in the world.
      */
     private void addGreenSlimeNPC(int worldX, int worldY) {
-        M_GreenSlime greenSlime = new M_GreenSlime(gamePanel);
+        GreenSlime greenSlime = new GreenSlime(gamePanel);
         greenSlime.setWorldX(worldX);
         greenSlime.setWorldY(worldY);
         gamePanel.addNPC(greenSlime);

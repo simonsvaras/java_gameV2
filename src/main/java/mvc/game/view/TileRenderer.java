@@ -1,6 +1,6 @@
 package mvc.game.view;
 
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 import mvc.game.model.tile.Tile;
 import mvc.game.model.tile.TileManager;
 
@@ -10,7 +10,7 @@ import java.awt.*;
  * Handles the rendering of the tiles in the game.
  */
 public class TileRenderer {
-    private final C_GamePanel gamePanel;
+    private final GamePanel gamePanel;
     private final TileManager tileManager;
 
     /**
@@ -19,7 +19,7 @@ public class TileRenderer {
      * @param gamePanel The game panel.
      * @param tileManager The tile manager.
      */
-    public TileRenderer(C_GamePanel gamePanel, TileManager tileManager) {
+    public TileRenderer(GamePanel gamePanel, TileManager tileManager) {
         this.gamePanel = gamePanel;
         this.tileManager = tileManager;
     }
@@ -33,9 +33,9 @@ public class TileRenderer {
         Tile[] tiles = tileManager.getTiles();
         int[][] mapTileNum = tileManager.getMapTileNum();
 
-        int maxCols = C_GamePanel.MAX_WORLD_COL;
-        int maxRows = C_GamePanel.MAX_WORLD_ROW;
-        int tileSize = C_GamePanel.TILE_SIZE;
+        int maxCols = GamePanel.MAX_WORLD_COL;
+        int maxRows = GamePanel.MAX_WORLD_ROW;
+        int tileSize = GamePanel.TILE_SIZE;
 
         int playerWorldX = gamePanel.getPlayer().getWorldX();
         int playerWorldY = gamePanel.getPlayer().getWorldY();

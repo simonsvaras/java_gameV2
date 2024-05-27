@@ -1,34 +1,35 @@
 package mvc.game.model.invenory;
 
-import mvc.game.model.entity.M_Entity;
+import mvc.game.model.entity.Entity;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Inventory {
-    private List<M_Entity> items;
+    private List<Entity> items;
 
     public Inventory() {
-        this.items = new ArrayList<>();
+        this.items = new LinkedList<>();
     }
 
-    public void addItem(M_Entity item) {
+    public void addItem(Entity item) {
         this.items.add(item);
-        // Zde můžete přidat další logiku, např. aktualizace UI inventáře
+
     }
 
-    public boolean removeItem(M_Entity item) {
+    public boolean removeItem(Entity item) {
         return this.items.remove(item);
-        // Můžete přidat logiku pro aktualizaci UI po odebrání položky
+
     }
 
-    public List<M_Entity> getItems() {
+    public List<Entity> getItems() {
         return items;
     }
 
     public void clear() {
         this.items.clear();
-        // Další logika po vyčištění inventáře, např. aktualizace UI
+
     }
 }

@@ -1,21 +1,16 @@
 package mvc.game.model.objects;
 
-import mvc.game.controller.C_GamePanel;
-import mvc.game.model.entity.M_Entity;
-import mvc.game.model.entity.M_Player;
+import mvc.game.controller.GamePanel;
+import mvc.game.model.entity.Entity;
+import mvc.game.model.entity.Player;
 
 import java.awt.image.BufferedImage;
 
 /**
  * Represents a game object that can be interacted with in the game.
  */
-public abstract class GameObject extends M_Entity implements Interactable {
-
-    /**
-     * The name of the game object.
-     */
-    protected String name;
-
+public abstract class GameObject extends Entity implements Interactable {
+    
     /**
      * The description of the game object.
      */
@@ -26,26 +21,13 @@ public abstract class GameObject extends M_Entity implements Interactable {
      */
     protected BufferedImage image;
 
-    /**
-     * The amount of healing provided by the game object.
-     */
-    protected int healAmount;
 
     // ITEM ATTRIBUTES
-    /**
-     * The attack value of the game object.
-     */
-    protected int attackValue;
 
     /**
      * The value of the game object.
      */
     protected int value;
-
-    /**
-     * The defense value of the game object.
-     */
-    public int defenseValue;
 
     /**
      * Indicates if the game object is stackable.
@@ -62,9 +44,10 @@ public abstract class GameObject extends M_Entity implements Interactable {
      *
      * @param gamePanel The game panel.
      */
-    public GameObject(C_GamePanel gamePanel) {
-        super(gamePanel);
+    public GameObject(GamePanel gamePanel, int worldX, int worldY) {
+        super(gamePanel, worldX, worldY);
     }
+
 
     /**
      * Interacts with the player.
@@ -72,7 +55,7 @@ public abstract class GameObject extends M_Entity implements Interactable {
      * @param player The player to interact with.
      */
     @Override
-    public abstract void interact(M_Player player);
+    public abstract void interact(Player player);
 
     /**
      * Picks up the game object by the player.
@@ -80,10 +63,25 @@ public abstract class GameObject extends M_Entity implements Interactable {
      * @param player The player picking up the object.
      */
     @Override
-    public abstract void pickUp(M_Player player);
+    public abstract void pickUp(Player player);
 
-    public int getAttackValue() {
-        return attackValue;
+    public String getDescription() {
+        return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
+    public boolean isStackable() {
+        return stackable;
+    }
+
+    public void setStackable(boolean stackable) {
+        this.stackable = stackable;
+    }
 }

@@ -1,28 +1,24 @@
-import mvc.game.controller.C_CollisionManager;
-import mvc.game.controller.C_GamePanel;
-import mvc.game.controller.C_KeyHandler;
+import mvc.game.controller.CollisionManager;
+import mvc.game.controller.GamePanel;
+import mvc.game.controller.KeyHandler;
 import mvc.game.model.Direction;
-import mvc.game.model.entity.M_Entity;
-import mvc.game.model.entity.M_NPCs;
-import mvc.game.model.entity.M_Player;
+import mvc.game.model.entity.NPCs;
+import mvc.game.model.entity.Player;
 import mvc.game.state.PlayState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayStateTest {
     @Mock
-    private C_GamePanel gamePanel = new C_GamePanel();
+    private GamePanel gamePanel = new GamePanel();
     @Mock
-    private C_KeyHandler keyHandler;
+    private KeyHandler keyHandler;
     @Mock
-    private C_CollisionManager collisionManager;
+    private CollisionManager collisionManager;
 
     @InjectMocks
     private PlayState playState;
@@ -32,12 +28,12 @@ class PlayStateTest {
         MockitoAnnotations.openMocks(this);
         when(gamePanel.getKeyHandler()).thenReturn(keyHandler);
         keyHandler = gamePanel.getKeyHandler();
-        collisionManager = new C_CollisionManager(gamePanel);
+        collisionManager = new CollisionManager(gamePanel);
     }
 /*
     @Test
     void testNPCMovementUpdate() {
-        M_Entity npc = new M_NPCs(gamePanel);
+        Entity npc = new NPCs(gamePanel);
         when(gamePanel.getNpcs()).thenReturn( List.of(npc));
         playState.update();
         // Verify that handleNPCMovement is called and NPC properties are updated accordingly
@@ -47,9 +43,9 @@ class PlayStateTest {
  */
     @Test
     void testPlayerMovementWithKeyPress() {
-        M_Player player = gamePanel.getPlayer();
+        Player player = gamePanel.getPlayer();
         when(gamePanel.getPlayer()).thenReturn(player);
-        when(keyHandler.upPressed).thenReturn(true);
+        when(keyHandler.isUpPressed()).thenReturn(true);
 
         playState.update();
 
@@ -61,7 +57,7 @@ class PlayStateTest {
 
     @Test
     void testRandomDirectionChange() {
-        M_NPCs npc = mock(M_NPCs.class);
+        NPCs npc = mock(NPCs.class);
         npc.setActionLockCounter(1000); // Set higher than max to trigger change
         npc.setMaxActionLockCounter(10); // Assume this method exists to set max counter
         playState.handleNPCMovement(npc);
@@ -72,7 +68,7 @@ class PlayStateTest {
 
     @Test
     void testMovementBlockedByCollision() {
-        M_NPCs npc = new M_NPCs(gamePanel);
+        NPCs npc = new NPCs(gamePanel);
         npc.setCollisionOn(true); // Simulate a collision condition
         assertFalse(playState.tryMove(npc, Direction.UP));
         // Verify collision management logic is being called

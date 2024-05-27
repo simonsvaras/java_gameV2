@@ -2,7 +2,7 @@ package mvc.game.controller;
 
 import mvc.game.model.Direction;
 import mvc.game.model.entity.LiveObjects;
-import mvc.game.model.entity.M_NPCs;
+import mvc.game.model.entity.NPCs;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,15 +12,15 @@ import java.util.ArrayList;
  * This class checks if an entity, such as a player, collides with any impassable tiles on the map
  * based on the direction of movement.
  */
-public class C_CollisionManager {
+public class CollisionManager {
     // Reference to the game panel where the game's main mechanics are controlled.
-    C_GamePanel gamePanel;
+    GamePanel gamePanel;
 
     /**
      * Constructor for the collision manager.
      * @param gamePanel The main game panel that holds references to other components and game settings.
      */
-    public C_CollisionManager(C_GamePanel gamePanel) {
+    public CollisionManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
@@ -52,10 +52,10 @@ public class C_CollisionManager {
         }
 
         // Calculate the new position of each corner of the entity's bounding box
-        int newLeftX = (entity.getWorldX() + dx + entity.getSolidArea().x) / C_GamePanel.TILE_SIZE;
-        int newRightX = (entity.getWorldX() + dx + entity.getSolidArea().x + entity.getSolidArea().width) / C_GamePanel.TILE_SIZE;
-        int newTopY = (entity.getWorldY() + dy + entity.getSolidArea().y) / C_GamePanel.TILE_SIZE;
-        int newBottomY = (entity.getWorldY() + dy + entity.getSolidArea().y + entity.getSolidArea().height) / C_GamePanel.TILE_SIZE;
+        int newLeftX = (entity.getWorldX() + dx + entity.getSolidArea().x) / GamePanel.TILE_SIZE;
+        int newRightX = (entity.getWorldX() + dx + entity.getSolidArea().x + entity.getSolidArea().width) / GamePanel.TILE_SIZE;
+        int newTopY = (entity.getWorldY() + dy + entity.getSolidArea().y) / GamePanel.TILE_SIZE;
+        int newBottomY = (entity.getWorldY() + dy + entity.getSolidArea().y + entity.getSolidArea().height) / GamePanel.TILE_SIZE;
 
         // Check each corner for collision with impassable tiles
         entity.setCollisionOn(
@@ -78,7 +78,7 @@ public class C_CollisionManager {
      *
      * (NON-FUNCTIONAL YET)
      */
-    public boolean checkEntity(LiveObjects entity, ArrayList<M_NPCs> entities) {
+    public boolean checkEntity(LiveObjects entity, ArrayList<NPCs> entities) {
         for (LiveObjects target : entities) {
             if (target != null && target != entity) {
                 // Move the solid area based on the entity's direction and speed

@@ -1,8 +1,8 @@
 package mvc.game.controller;
 
-import mvc.game.model.entity.M_Entity;
-import mvc.game.model.entity.M_NPCs;
-import mvc.game.model.entity.M_Player;
+import mvc.game.model.entity.Entity;
+import mvc.game.model.entity.NPCs;
+import mvc.game.model.entity.Player;
 import mvc.game.model.tile.TileManager;
 import mvc.game.state.GameState;
 import mvc.game.state.TitleState;
@@ -19,8 +19,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * The main game panel where the game is rendered and updated.
  */
-public class C_GamePanel extends JPanel implements Runnable {
-    private static final Logger logger = LogManager.getLogger(C_GamePanel.class);
+public class GamePanel extends JPanel implements Runnable {
+    private static final Logger logger = LogManager.getLogger(GamePanel.class);
 
 
 
@@ -78,20 +78,20 @@ public class C_GamePanel extends JPanel implements Runnable {
     /**
      * The player entity.
      */
-    private M_Entity player = new M_Player(this);
+    private Entity player = new Player(this);
 
     /**
      * The list of NPCs in the game.
      */
-    private List<M_NPCs> NPCs = new ArrayList<>();
+    private List<mvc.game.model.entity.NPCs> NPCs = new ArrayList<>();
 
     // MANAGERS
-    private final C_EntityManager entityManager = new C_EntityManager(this);
+    private final EntityManager entityManager = new EntityManager(this);
 
     /**
      * The key handler for managing input.
      */
-    public C_KeyHandler keyHandler = new C_KeyHandler(this);
+    public KeyHandler keyHandler = new KeyHandler(this);
 
     // VIEW
     private final TileManager tileManager = new TileManager(this);
@@ -107,7 +107,7 @@ public class C_GamePanel extends JPanel implements Runnable {
     /**
      * Constructs a new C_GamePanel.
      */
-    public C_GamePanel() {
+    public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH , SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
@@ -186,7 +186,7 @@ public class C_GamePanel extends JPanel implements Runnable {
      *
      * @return the key handler
      */
-    public C_KeyHandler getKeyHandler() {
+    public KeyHandler getKeyHandler() {
         return keyHandler;
     }
 
@@ -226,8 +226,8 @@ public class C_GamePanel extends JPanel implements Runnable {
      *
      * @return the player entity
      */
-    public M_Player getPlayer(){
-        return (M_Player) player;
+    public Player getPlayer(){
+        return (Player) player;
     }
 
     /**
@@ -235,10 +235,10 @@ public class C_GamePanel extends JPanel implements Runnable {
      *
      * @return the list of NPCs
      */
-    public ArrayList<M_NPCs> getNpcs(){
-        return (ArrayList<M_NPCs>) NPCs;
+    public List<mvc.game.model.entity.NPCs> getNpcs(){
+        return  NPCs;
     }
-    public void addNPC(M_NPCs npc){
+    public void addNPC(mvc.game.model.entity.NPCs npc){
         NPCs.add(npc);
     }
 }

@@ -8,19 +8,19 @@ import java.util.Map;
 /**
  * Handles keyboard input for the game.
  */
-public class C_KeyHandler implements KeyListener {
+public class KeyHandler implements KeyListener {
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
     private Map<Integer, Runnable> keyPressedActions = new HashMap<>();
     private Map<Integer, Runnable> keyReleasedActions = new HashMap<>();
-    private C_GamePanel gamePanel;
+    private GamePanel gamePanel;
 
     /**
      * Constructs a key handler for the specified game panel.
      *
      * @param gamePanel The game panel.
      */
-    public C_KeyHandler(C_GamePanel gamePanel) {
+    public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         initializeKeyMappings();
     }
@@ -43,6 +43,28 @@ public class C_KeyHandler implements KeyListener {
         keyReleasedActions.put(KeyEvent.VK_D, () -> rightPressed = false);
         keyReleasedActions.put(KeyEvent.VK_ENTER, () -> enterPressed = false);
     }
+
+    // Getters for the key pressed states
+    public boolean isUpPressed() {
+        return upPressed;
+    }
+
+    public boolean isDownPressed() {
+        return downPressed;
+    }
+
+    public boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    public boolean isRightPressed() {
+        return rightPressed;
+    }
+
+    public boolean isEnterPressed() {
+        return enterPressed;
+    }
+
 
     @Override
     public void keyTyped(KeyEvent e) {

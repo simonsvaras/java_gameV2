@@ -1,8 +1,7 @@
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 import mvc.game.model.entity.LiveObjects;
-import mvc.game.model.entity.M_Entity;
+import mvc.game.model.entity.Entity;
 import mvc.game.model.invenory.Inventory;
-import org.game.main.GamePanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class InventoryTest {
     private Inventory inventory;
 
-    private C_GamePanel gamePanel = new C_GamePanel();
-    private M_Entity item1;
-    private M_Entity item2;
+    private GamePanel gamePanel = new GamePanel();
+    private Entity item1;
+    private Entity item2;
 
     @BeforeEach
     void setUp() {
         inventory = new Inventory();
-        item1 = new LiveObjects(gamePanel); // Assuming M_Entity has a no-arg constructor
+        item1 = new LiveObjects(gamePanel); // Assuming Entity has a no-arg constructor
         item2 = new LiveObjects(gamePanel);
     }
 
@@ -49,7 +48,7 @@ class InventoryTest {
     void testGetItems() {
         inventory.addItem(item1);
         inventory.addItem(item2);
-        List<M_Entity> items = inventory.getItems();
+        List<Entity> items = inventory.getItems();
         assertEquals(2, items.size(), "Inventory should return the correct number of items.");
         assertTrue(items.contains(item1) && items.contains(item2), "Inventory should return the correct items.");
     }

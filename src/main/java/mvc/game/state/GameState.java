@@ -1,7 +1,5 @@
 package mvc.game.state;
 
-import mvc.game.controller.C_GamePanel;
-
 import java.awt.*;
 
 /**

@@ -1,6 +1,6 @@
 package mvc.game.view;
 
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
 
 import java.awt.*;
 
@@ -14,7 +14,7 @@ public class TitleScreenRenderer extends Utils {
     private static final Font TITLE_FONT = new Font("Arial", Font.BOLD, 60);
     private static final Font MENU_FONT = new Font("Arial", Font.BOLD, 30);
 
-    private final C_GamePanel gamePanel;
+    private final GamePanel gamePanel;
     /**
      * The current selected menu command.
      */
@@ -25,7 +25,7 @@ public class TitleScreenRenderer extends Utils {
      *
      * @param gamePanel The game panel.
      */
-    public TitleScreenRenderer(C_GamePanel gamePanel) {
+    public TitleScreenRenderer(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
@@ -48,7 +48,7 @@ public class TitleScreenRenderer extends Utils {
      */
     private void drawBackground(Graphics2D g2) {
         g2.setColor(BACKGROUND_COLOR);
-        g2.fillRect(0, 0, C_GamePanel.SCREEN_WIDTH, C_GamePanel.SCREEN_HEIGHT);
+        g2.fillRect(0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT);
     }
 
     /**
@@ -60,7 +60,7 @@ public class TitleScreenRenderer extends Utils {
         g2.setFont(TITLE_FONT);
         String text = "Blue Boy Adventure";
         int x = getXForCenteredText(text, g2);
-        int y = C_GamePanel.TILE_SIZE * 3;
+        int y = GamePanel.TILE_SIZE * 3;
 
         // Draw shadow
         g2.setColor(SHADOW_COLOR);
@@ -77,9 +77,9 @@ public class TitleScreenRenderer extends Utils {
      * @param g2 The Graphics2D object used for rendering.
      */
     private void drawPlayerImage(Graphics2D g2) {
-        int x = C_GamePanel.SCREEN_WIDTH / 2 - (C_GamePanel.TILE_SIZE * 2) / 2;
-        int y = C_GamePanel.TILE_SIZE * 5;
-        g2.drawImage(gamePanel.getPlayer().getCurrentFrame(0), x, y, C_GamePanel.TILE_SIZE * 2, C_GamePanel.TILE_SIZE * 2, null);
+        int x = GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE * 2) / 2;
+        int y = GamePanel.TILE_SIZE * 5;
+        g2.drawImage(gamePanel.getPlayer().getCurrentFrame(0), x, y, GamePanel.TILE_SIZE * 2, GamePanel.TILE_SIZE * 2, null);
     }
 
     /**
@@ -91,7 +91,7 @@ public class TitleScreenRenderer extends Utils {
         g2.setFont(MENU_FONT);
 
         String[] menuItems = {"NEW GAME", "LOAD GAME", "QUIT"};
-        int y = C_GamePanel.TILE_SIZE * 9;
+        int y = GamePanel.TILE_SIZE * 9;
 
         for (int i = 0; i < menuItems.length; i++) {
             String text = menuItems[i];
@@ -100,10 +100,10 @@ public class TitleScreenRenderer extends Utils {
 
             // Draw the selection indicator (">") if this menu item is selected
             if (commandNum == i) {
-                g2.drawString(">", x - C_GamePanel.TILE_SIZE, y);
+                g2.drawString(">", x - GamePanel.TILE_SIZE, y);
             }
 
-            y += C_GamePanel.TILE_SIZE;
+            y += GamePanel.TILE_SIZE;
         }
     }
 }

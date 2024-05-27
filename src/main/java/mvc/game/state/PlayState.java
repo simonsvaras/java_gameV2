@@ -1,12 +1,12 @@
 package mvc.game.state;
 
-import mvc.game.controller.C_CollisionManager;
-import mvc.game.controller.C_GamePanel;
-import mvc.game.controller.C_KeyHandler;
+import mvc.game.controller.CollisionManager;
+import mvc.game.controller.GamePanel;
+import mvc.game.controller.KeyHandler;
 import mvc.game.model.*;
 import mvc.game.model.entity.LiveObjects;
-import mvc.game.model.entity.M_NPCs;
-import mvc.game.model.entity.M_Player;
+import mvc.game.model.entity.NPCs;
+import mvc.game.model.entity.Player;
 import mvc.game.view.NPCRenderer;
 import mvc.game.view.PlayerRenderer;
 import mvc.game.view.TileRenderer;
@@ -22,14 +22,14 @@ import org.apache.logging.log4j.Logger;
  * The state of the game where the main gameplay occurs.
  */
 public class PlayState implements GameState {
-    private static final Logger logger = LogManager.getLogger(C_GamePanel.class);
+    private static final Logger logger = LogManager.getLogger(GamePanel.class);
 
-    private final C_GamePanel gamePanel;
+    private final GamePanel gamePanel;
     private final TileRenderer tileRenderer;
     private final PlayerRenderer playerRenderer;
-    private final C_CollisionManager collisionManager;
+    private final CollisionManager collisionManager;
     private final NPCRenderer npcRenderer;
-    private final C_KeyHandler keyHandler;
+    private final KeyHandler keyHandler;
 
     private Random random = new Random();
 
@@ -38,13 +38,13 @@ public class PlayState implements GameState {
      *
      * @param gamePanel The game panel.
      */
-    public PlayState(C_GamePanel gamePanel) {
+    public PlayState(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.keyHandler = gamePanel.getKeyHandler();
         this.tileRenderer = new TileRenderer(gamePanel, gamePanel.getTileManager());
-        this.playerRenderer = new PlayerRenderer(gamePanel, (M_Player) gamePanel.getPlayer());
+        this.playerRenderer = new PlayerRenderer(gamePanel, (Player) gamePanel.getPlayer());
         this.npcRenderer = new NPCRenderer(gamePanel);
-        this.collisionManager = new C_CollisionManager(gamePanel);
+        this.collisionManager = new CollisionManager(gamePanel);
     }
 
     /**
@@ -56,7 +56,7 @@ public class PlayState implements GameState {
         handleMovement(gamePanel.getPlayer());
 
         // Update NPC movements
-        for (M_NPCs NPC : gamePanel.getNpcs()) {
+        for (NPCs NPC : gamePanel.getNpcs()) {
             NPC.setCollisionOn(false);
             handleNPCMovement(NPC);
         }
@@ -79,7 +79,7 @@ public class PlayState implements GameState {
      *
      * @param object The NPC to move.
      */
-    public void handleNPCMovement(M_NPCs object) {
+    public void handleNPCMovement(NPCs object) {
         Direction previousDirection = object.getDirection();
 
         object.setActionLockCounter(object.getActionLockCounter() + 1);
@@ -98,7 +98,7 @@ public class PlayState implements GameState {
      *
      * @param object The NPC whose direction will change.
      */
-    private void changeDirectionRandomly(M_NPCs object) {
+    private void changeDirectionRandomly(NPCs object) {
         int directionChoice = random.nextInt(4); // Generates a number between 0 and 3
 
         switch (directionChoice) {
@@ -128,22 +128,22 @@ public class PlayState implements GameState {
         boolean hasMoved = false;
         Direction previousDirection = object.getDirection();
 
-        if (keyHandler.upPressed) {
+        if (keyHandler.isUpPressed()) {
             object.setDirection(Direction.UP);
             hasMoved = tryMove(object, object.getDirection());
         }
 
-        if (keyHandler.downPressed) {
+        if (keyHandler.isDownPressed()) {
             object.setDirection(Direction.DOWN);
             hasMoved = tryMove(object, object.getDirection());
         }
 
-        if (keyHandler.leftPressed) {
+        if (keyHandler.isLeftPressed()) {
             object.setDirection(Direction.LEFT);
             hasMoved = tryMove(object, object.getDirection());
         }
 
-        if (keyHandler.rightPressed) {
+        if (keyHandler.isEnterPressed()) {
             object.setDirection(Direction.RIGHT);
             hasMoved = tryMove(object, object.getDirection());
         }
@@ -179,7 +179,7 @@ public class PlayState implements GameState {
     public boolean tryMove(LiveObjects object, Direction direction) {
         collisionManager.checkTileCollision(object, direction);
 
-        //collisionManager.checkEntity(object, gamePanel.getNpcs());
+        //CollisionManager.checkEntity(object, gamePanel.getNpcs());
 
         if (!object.getCollisionOn()) {
             switch (direction) {

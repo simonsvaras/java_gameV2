@@ -1,6 +1,7 @@
 package mvc.game.model.entity;
 
-import mvc.game.controller.C_GamePanel;
+import mvc.game.controller.GamePanel;
+import mvc.game.model.Coordinate;
 import mvc.game.model.Direction;
 import mvc.game.model.Sprites;
 
@@ -9,7 +10,7 @@ import java.awt.image.BufferedImage;
 /**
  * Represents a live object in the game, such as a player or NPC.
  */
-public class LiveObjects extends M_Entity {
+public class LiveObjects extends Entity {
 
     protected Sprites sprite = new Sprites();
 
@@ -100,10 +101,6 @@ public class LiveObjects extends M_Entity {
      */
     protected boolean dying;
 
-    /**
-     * The dialogues for the object.
-     */
-    protected String[] dialogues = new String[20];
 
     /**
      * The index of the current dialogue.
@@ -115,11 +112,12 @@ public class LiveObjects extends M_Entity {
      *
      * @param gamePanel The game panel.
      */
-    public LiveObjects(C_GamePanel gamePanel) {
-        super(gamePanel);
+    public LiveObjects(GamePanel gamePanel) {
+        super(gamePanel, GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE / 2),
+                GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2));
         // Making exact middle point of screen to ensure the player is always in the middle
-        screenX = C_GamePanel.SCREEN_WIDTH / 2 - (C_GamePanel.TILE_SIZE / 2);
-        screenY = C_GamePanel.SCREEN_HEIGHT / 2 - (C_GamePanel.TILE_SIZE / 2);
+        screenX = GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE / 2);
+        screenY = GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2);
 
         isAttacking = false;
         alive = true;
@@ -139,7 +137,7 @@ public class LiveObjects extends M_Entity {
      */
     public void moveUp() {
         direction = Direction.UP;
-        worldY -= speed;
+        position.setY(position.getY() - speed);
     }
 
     /**
@@ -147,7 +145,7 @@ public class LiveObjects extends M_Entity {
      */
     public void moveDown() {
         direction = Direction.DOWN;
-        worldY += speed;
+        position.setY(position.getY() + speed);
     }
 
     /**
@@ -155,7 +153,7 @@ public class LiveObjects extends M_Entity {
      */
     public void moveLeft() {
         direction = Direction.LEFT;
-        worldX -= speed;
+        position.setX(position.getX() - speed);
     }
 
     /**
@@ -163,7 +161,7 @@ public class LiveObjects extends M_Entity {
      */
     public void moveRight() {
         direction = Direction.RIGHT;
-        worldX += speed;
+        position.setX(position.getX() + speed);
     }
 
     /**
@@ -188,11 +186,7 @@ public class LiveObjects extends M_Entity {
         if (spriteCounter > 15) {
             spriteCounter = 0;
             // Toggle between sprite frames for animation
-            if (spriteNum == 0) {
-                spriteNum = 1;
-            } else {
-                spriteNum = 0;
-            }
+            spriteNum = (spriteNum + 1) % 2;
         }
     }
 
