@@ -79,7 +79,7 @@ public class PlayState implements GameState {
      *
      * @param object The NPC to move.
      */
-    public void handleNPCMovement(NPCs object) {
+    private void handleNPCMovement(NPCs object) {
         Direction previousDirection = object.getDirection();
 
         object.setActionLockCounter(object.getActionLockCounter() + 1);
